@@ -1,0 +1,434 @@
+:root {
+    --bg-color: #f4f4f9;
+    --text-color: #333333;
+    --board-bg: #ffffff;
+    --cell-border: #cccccc;
+    --cell-text: #2c3e50;
+    --cell-readonly: #e0e0e0;
+    --primary-btn: #3498db;
+    --primary-hover: #2980b9;
+    --block-border: #34495e;
+}
+
+[data-theme="dark"] {
+    --bg-color: #121212;
+    --text-color: #f4f4f9;
+    --board-bg: #1e1e1e;
+    --cell-border: #444444;
+    --cell-text: #ecf0f1;
+    --cell-readonly: #2c3e50;
+    --block-border: #ffffff;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    min-height: 100vh;
+    transition: background-color 0.3s, color 0.3s;
+    background: linear-gradient(135deg, var(--bg-color) 0%, var(--cell-border) 100%);
+    touch-action: manipulation;
+    /* Evita el zoom por doble toque accidental */
+    overflow-x: hidden;
+    /* Evita rebotes horizontales */
+}
+
+#sudoku-board {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    width: 95vw;
+    max-width: 450px;
+    gap: 0;
+    border: 3px solid var(--block-border);
+    background-color: var(--board-bg);
+    margin: 15px auto;
+    padding: 3px;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+}
+
+.cell {
+    width: 40px;
+    height: 40px;
+    border: 1px solid var(--cell-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: clamp(1rem, 5vw, 1.5rem);
+    font-weight: bold;
+    color: var(--cell-text);
+    outline: none;
+    background-color: var(--board-bg);
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+/* Bordes gruesos para las cajas de 3x3 */
+.cell:nth-child(3n) {
+    border-right: 2px solid var(--block-border);
+}
+
+.cell:nth-child(9n) {
+    border-right: 1px solid var(--cell-border);
+}
+
+.cell:nth-child(n+19):nth-child(-n+27),
+.cell:nth-child(n+46):nth-child(-n+54) {
+    border-bottom: 2px solid var(--block-border);
+}
+
+.cell[readonly] {
+    background-color: var(--cell-readonly);
+}
+
+.cell:hover:not([readonly]) {
+    background-color: var(--primary-hover);
+    color: white;
+}
+
+.cell:focus {
+    background-color: #ffeaa7;
+    color: #2d3436;
+    transform: scale(1.05);
+    z-index: 10;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.controls {
+    display: flex;
+    gap: 10px;
+}
+
+.header-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+.btn {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: transform 0.2s, box-shadow 0.2s;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(2px);
+}
+
+.btn.primary {
+    background-color: var(--primary-btn);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: var(--primary-hover);
+}
+
+#message {
+    font-weight: bold;
+    margin-top: 15px;
+    height: 20px;
+}
+
+.btn.warning {
+    background-color: #f39c12;
+    color: white;
+}
+
+.btn.warning:hover {
+    background-color: #e67e22;
+}
+
+/* Animación de penalización para el cronómetro */
+.penalty {
+    animation: flash-red 0.5s;
+}
+
+@keyframes flash-red {
+    0% { background-color: var(--block-border); }
+    50% { background-color: #e74c3c; transform: scale(1.1); }
+    100% { background-color: var(--block-border); }
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    max-width: 100vw;
+}
+
+/* Ajuste para móviles pequeños */
+@media (max-width: 400px) {
+    .cell {
+        width: 35px;
+        height: 35px;
+        font-size: 1rem;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+#sudoku-board {
+    animation: fadeIn 0.8s ease-out;
+}
+
+.top-bar-container {
+    position: relative;
+    z-index: 1;
+}
+
+.settings-bar {
+    display: flex;
+    /*align-items: center;*/
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+.settings-bar {
+    gap: 15px;
+}
+
+.boxHelp {
+    display: inline-flex;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url("./img/logo.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: min(250px, 40vw);
+    opacity: 0.04;
+    pointer-events: none;
+    z-index: 0;
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 500px) {
+    header {
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .header-controls {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+        width: 100%;
+    }
+
+    #timer-display {
+        order: -1; /* Ponemos el cronómetro arriba o primero */
+        width: 100px;
+        font-size: 1.2rem;
+    }
+
+    .controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* Dos columnas de botones */
+        width: 95vw;
+        max-width: 450px;
+        gap: 8px;
+    }
+
+    /* El botón de "Nuevo Juego" ocupa todo el ancho abajo */
+    #new-game-btn {
+        grid-column: span 2;
+    }
+
+    .btn {
+        padding: 15px 10px; /* Más grandes para el dedo */
+        font-size: 0.8rem;
+    }
+
+    .level-select {
+        flex-grow: 1;
+        text-align: center;
+    }
+}
+
+/* Para celulares muy pequeños (ej. iPhone 5/SE antiguo) */
+@media (max-width: 340px) {
+    #sudoku-board {
+        width: 98vw;
+    }
+    .cell {
+        font-size: 0.9rem;
+    }
+}
+
+/* Quitar flechas de input number */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Para Firefox antiguo */
+    appearance: textfield;      /* Estándar moderno */
+}
+
+/* Evitar zoom en iOS al enfocar el input */
+@media screen and (max-width: 768px) {
+    input, select {
+        font-size: 16px !important; 
+    }
+}
+
+.top-bar-container {
+    display: flex;
+    justify-content: space-between; /* Separa el nivel del tiempo */
+    align-items: center;
+    width: 95vw;
+    max-width: 450px;
+    margin: 10px auto;
+    padding: 5px 10px;
+    background: var(--board-bg);
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    box-sizing: border-box;
+}
+
+/* Grupo del Cronómetro y Botón */
+.status-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--cell-readonly);
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
+#timer-display {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-color);
+    min-width: 60px;
+}
+
+#theme-toggle {
+    background: var(--board-bg);
+    border: 1px solid var(--cell-border);
+    border-radius: 8px;
+    cursor: pointer;
+    padding: 5px 8px;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#theme-toggle:hover {
+    transform: rotate(15deg);
+}
+
+/* Selector de Nivel con estilo minimalista */
+.level-select {
+    border: none;
+    background: transparent;
+    color: var(--text-color);
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    outline: none;
+    padding: 5px;
+}
+
+/* Ajuste específico para las opciones del menú desplegable */
+.level-select option {
+    background-color: var(--board-bg); /* Fondo del menú igual al del tablero */
+    color: var(--text-color);          /* Texto según el tema */
+}
+
+/* En algunos navegadores, el hover de las opciones se puede mejorar así: */
+[data-theme="dark"] .level-select option {
+    background-color: #2c2c2c; /* Un gris oscuro sólido para evitar transparencias raras */
+}
+
+/* Responsive para celulares muy angostos */
+@media (max-width: 380px) {
+    .top-bar-container {
+        padding: 8px 10px;
+    }
+    #timer-display {
+        font-size: 0.9rem;
+    }
+    .level-select {
+        font-size: 0.8rem;
+    }
+}
+
+/* Color suave para la "cruz" de la celda seleccionada */
+.cell.highlight {
+    background-color: rgba(108, 92, 231, 0.08); /* Morado muy tenue */
+}
+
+/* En modo oscuro usamos un color que contraste mejor */
+[data-theme="dark"] .cell.highlight {
+    background-color: rgba(129, 236, 236, 0.08); /* Cyan tenue */
+}
+
+[data-theme="dark"] .cell[readonly] {
+    color: rgba(244, 244, 249, 0.5); /* Texto más tenue para las pistas iniciales */
+}
+
+/* La celda que tiene el foco específicamente */
+.cell:focus {
+    background-color: #ffeaa7 !important; /* Amarillo suave para resaltar donde escribes */
+    color: #2d3436;
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+/* Footer */
+.game-footer {
+    margin-top: auto;
+    /* Empuja el footer al final */
+    padding: 6px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-footer p {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.game-footer strong {
+    color: #94a3b8;
+}
+
+.game-footer strong:hover {
+    color: #3b82f6;
+    cursor: default;
+}

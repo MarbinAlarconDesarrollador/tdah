@@ -1,0 +1,51 @@
+:root {
+    --player1: #ef4444; /* Rojo */
+    --player2: #f59e0b; /* Amarillo */
+    --board-color: #2563eb; /* Azul */
+}
+
+.status-panel {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+    padding: 10px;
+    border-radius: 10px;
+    background: white;
+}
+
+#c4-board {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    gap: 8px;
+    background-color: var(--board-color);
+    padding: 10px;
+    border-radius: 15px;
+    width: 90vw;
+    max-width: 400px;
+    margin: 0 auto;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.cell {
+    aspect-ratio: 1/1;
+    background-color: #f8fafc;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: inset 2px 2px 5px rgba(0,0,0,0.1);
+    transition: background 0.3s;
+}
+
+.cell.red { background-color: var(--player1); }
+.cell.yellow { background-color: var(--player2); }
+
+.cell.win {
+    animation: pulse 1s infinite;
+    border: 3px solid white;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}

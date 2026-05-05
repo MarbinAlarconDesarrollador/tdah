@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>CineRuleta PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+
+<body>
+
+
+    <div class="header t1" id="header-bar">
+        <div class="score-board">
+            <div class="team-box active" id="box-1">
+                <div class="score-val t1-text" id="s1">0</div>
+                <small class="t1-text">EQUIPO 1</small>
+            </div>
+
+            <div id="turn-indicator">
+                <div style="font-size: 0.7rem; color: #888;">TURNO</div>
+                <b id="team-name" class="t1-text">EQUIPO 1</b>
+            </div>
+
+            <div class="team-box" id="box-2">
+                <div class="score-val t2-text" id="s2">0</div>
+                <small class="t2-text">EQUIPO 2</small>
+            </div>
+        </div>
+    </div>
+
+    <div class="timer-section">
+        <div class="timer-display" id="timer">02:00</div>
+        <div class="timer-controls">
+            <button class="btn-play" id="start-btn" onclick="startTimer()">▶️ INICIAR TIEMPO</button>
+            <button class="btn-next" onclick="nextTurn()">⏭️ SALTAR TURNO / CAMBIO</button>
+        </div>
+    </div>
+
+    <div class="game-card">
+        <div class="category-tag" id="category-display">VERBOS</div>
+        <div id="verbo-name">VERBOS</div>
+        <button class="btn-toggle" onclick="toggleVisibility()">👁️ VER / OCULTAR</button>
+    </div>
+
+    <div class="controls">
+        <button class="btn-spin" onclick="spin()">🎰 SIGUIENTE VERBO</button>
+        <div class="score-buttons">
+            <button class="btn-score" onclick="addPoint(1)">PUNTO E1</button>
+            <button class="btn-score" onclick="addPoint(2)">PUNTO E2</button>
+        </div>
+    </div>
+
+
+
+    <div id="fullscreen-overlay" class="hidden">
+        <div id="fs-timer">02:00</div>
+
+        <div class="fs-verbo-controls">
+            <div id="fs-termination"
+                style="color: var(--accent); font-weight: bold; margin-bottom: 5px; font-size: 3rem;">
+                TERMINA EN: --
+            </div>
+
+            <div id="fs-verbo" class="hidden">Verbo Oculto</div>
+
+            <button class="btn-fs-toggle" onclick="toggleFsverbo()">👁️ REVELAR VERBO</button>
+            <button class="btn-fs-stop" onclick="stopTimerEarly()">🛑 DETENER</button>
+        </div>
+    </div>
+
+    <footer class="game-footer">
+        <p>Desarrollado por <strong>Marbin Alarcón</strong> &copy; 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 5px;">Con colaboración de <strong>Creando Soft Ltda.</strong></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

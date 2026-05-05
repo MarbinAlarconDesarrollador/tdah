@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Tower Game - Solo</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap" rel="stylesheet">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ea5046">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background: #1a1a1a;
+            /* Soporte para altura dinámica en móviles (evita que la barra de URL tape el juego) */
+            height: 100vh;
+            height: 100dvh;
+            overflow: hidden;
+            font-family: 'Fredoka One', cursive;
+            color: white;
+            touch-action: none;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 100%;
+            /* Se adapta al padre dinámico */
+        }
+
+        .ui-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            display: flex;
+            justify-content: center;
+            z-index: 10;
+            opacity: 0;
+            transition: 0.5s;
+        }
+
+        .player-hud {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Espaciado seguro para el notch de los iPhone/Android */
+            padding-top: calc(20px + env(safe-area-inset-top));
+            text-shadow: 0 3px 0 rgba(0, 0, 0, 0.4);
+        }
+
+        .score {
+            font-size: clamp(50px, 15vw, 70px);
+            /* Tamaño fluido responsive */
+            margin-bottom: 5px;
+        }
+
+        .lives {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: clamp(18px, 5vw, 24px);
+        }
+
+        .screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .logo {
+            font-size: clamp(40px, 10vw, 60px);
+            /* Tamaño fluido responsive */
+            color: #ffdb4d;
+            text-shadow: 0 6px 0 #a04000;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .player-setup {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            align-items: center;
+            width: 90%;
+            max-width: 280px;
+            border-top: 6px solid white;
+            margin-bottom: 30px;
+        }
+
+        .color-picker {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .color-dot {
+            width: clamp(30px, 8vw, 35px);
+            height: clamp(30px, 8vw, 35px);
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: transform 0.2s;
+        }
+
+        .color-dot.active {
+            border-color: white;
+            transform: scale(1.2);
+        }
+
+        .btn {
+            padding: 15px clamp(30px, 8vw, 50px);
+            font-size: clamp(20px, 6vw, 28px);
+            color: white;
+            background: #f34c50;
+            border: 4px solid white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #c0392b;
+            transition: transform 0.1s;
+        }
+
+        .btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #c0392b;
+        }
+
+        #countdown {
+            font-size: clamp(80px, 25vw, 120px);
+            color: #ffdb4d;
+            position: absolute;
+            display: none;
+            text-shadow: 0 10px 0 #a04000;
+        }
+
+        /* --- Estilos Instructivo --- */
+        .instr-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(0, 0, 0, 0.4));
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            padding: clamp(20px, 5vw, 30px);
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+        }
+
+        .instr-title {
+            color: #ffdb4d;
+            font-size: clamp(20px, 6vw, 24px);
+            margin-bottom: 15px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .instr-desc {
+            font-size: clamp(14px, 4vw, 16px);
+            line-height: 1.5;
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .instr-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            text-align: left;
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .instr-list li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: clamp(13px, 3.5vw, 15px);
+            background: rgba(0, 0, 0, 0.3);
+            padding: 12px 15px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .keycap {
+            display: inline-block;
+            background: #f1f1f1;
+            color: #333;
+            font-size: clamp(14px, 4vw, 16px);
+            font-weight: bold;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border-bottom: 4px solid #b5b5b5;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            margin-top: 10px;
+        }
+
+        /* --- Estilo del Footer --- */
+        .footer-credits {
+            position: absolute;
+            bottom: max(15px, env(safe-area-inset-bottom));
+            font-size: clamp(10px, 3vw, 12px);
+            color: rgba(255, 255, 255, 0.5);
+            text-align: center;
+            width: 100%;
+            font-family: 'Fredoka One', cursive;
+            letter-spacing: 0.5px;
+            pointer-events: none;
+            z-index: 150;
+        }
+
+        .footer-credits b {
+            color: #ffdb4d;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ui-layer" id="hud">
+        <div class="player-hud" id="hud0">
+            <div class="score" id="s0">0</div>
+            <div class="lives" id="l0"></div>
+        </div>
+    </div>
+
+    <canvas id="c"></canvas>
+
+    <div class="footer-credits">
+        Desarrollado por <b>Marbin Alarcón</b> | Apoyo para <b>CREANDO SOFT</b>
+    </div>
+
+    <div class="screen" id="startScreen">
+        <div class="logo">TOWER GAME</div>
+        <div class="player-setup" id="box0">
+            <div style="font-size: clamp(16px, 5vw, 20px);">ELIGE TU COLOR</div>
+            <div class="color-picker" id="picker0"></div>
+        </div>
+        <button class="btn" onclick="initGame()">¡JUGAR!</button>
+        <div class="footer-credits">
+            Desarrollado por <b>Marbin Alarcón</b> | Apoyo para <b>CREANDO SOFT</b>
+        </div>
+    </div>
+
+    <div class="screen hidden" id="instructionScreen">
+        <div class="logo" style="margin-bottom: 20px;">¿CÓMO JUGAR?</div>
+        <div class="instr-content">
+            <p class="instr-title">🎯 OBJETIVO</p>
+            <p class="instr-desc">¡Construye la torre más alta! Suelta los bloques con precisión. Si el bloque cae
+                fuera, perderás una vida.</p>
+            <ul class="instr-list">
+                <li><span class="icon">✅</span> <span><b>Alineación:</b> Entre mejor encaje, más estable será.</span>
+                </li>
+                <li><span class="icon">🏆</span> <span><b>Power-Ups:</b> Cada 5 niveles tendrás un bloque dorado.</span>
+                </li>
+                <li><span class="icon">❌</span> <span><b>Derrota:</b> Pierdes al agotar tus 3 vidas.</span></li>
+            </ul>
+            <div style="margin-top: 25px;">
+                <div style="font-size: 14px; color: rgba(255,255,255,0.7); margin-bottom: 10px;">SUELTA EL BLOQUE CON:
+                </div>
+                <div class="keycap">TOCAR PANTALLA</div>
+            </div>
+        </div>
+        <button class="btn" id="btnEntendido" onclick="startCountdown()">¡ENTENDIDO!</button>
+        <div id="countdown">3</div>
+        <div class="footer-credits">
+            Desarrollado por <b>Marbin Alarcón</b> | Apoyo para <b>CREANDO SOFT</b>
+        </div>
+    </div>
+
+    <div class="screen hidden" id="overScreen">
+        <div class="logo">¡TERMINADO!</div>
+        <div style="font-size: clamp(18px, 5vw, 24px); margin-bottom: 10px;">PUNTUACIÓN FINAL:</div>
+        <div id="results"
+            style="font-size: clamp(50px, 15vw, 80px); color: #ffdb4d; text-shadow: 0 4px 0 #a04000; margin-bottom: 30px;">
+            0</div>
+        <button class="btn" onclick="location.reload()">REINTENTAR</button>
+        <div class="footer-credits">
+            Desarrollado por <b>Marbin Alarcón</b> | Apoyo para <b>CREANDO SOFT</b>
+        </div>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let CW, CH, running = false, player;
+        const COLORS = ['#ea5046', '#3498db', '#2ecc71', '#9b59b6', '#f1c40f', '#e67e22'];
+        let selectedColor = COLORS[0];
+
+        // Configurar selector de color
+        const picker = document.getElementById('picker0');
+        COLORS.forEach(color => {
+            const dot = document.createElement('div');
+            dot.className = `color-dot ${selectedColor === color ? 'active' : ''}`;
+            dot.style.background = color;
+            dot.onclick = () => {
+                selectedColor = color;
+                document.getElementById('box0').style.borderColor = color;
+                Array.from(picker.children).forEach(d => d.classList.remove('active'));
+                dot.classList.add('active');
+            };
+            picker.appendChild(dot);
+        });
+        document.getElementById('box0').style.borderColor = selectedColor;
+
+        // ─── RESPONSIVE INTELIGENTE (Device Pixel Ratio + Cambio de orientación) ───
+        function resize() {
+            let oldCW = CW;
+            let oldCH = CH;
+
+            CW = window.innerWidth;
+            CH = window.innerHeight;
+
+            // Resolución HD para pantallas móviles
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = CW * dpr;
+            canvas.height = CH * dpr;
+            ctx.setTransform(1, 0, 0, 1, 0, 0); // Resetear matriz
+            ctx.scale(dpr, dpr);
+
+            // Re-centrar torre si el usuario gira el celular o la barra de URL desaparece
+            if (oldCW && oldCH && player && player.stack) {
+                let diffX = (CW - oldCW) / 2;
+                let diffY = CH - oldCH;
+
+                player.stack.forEach(b => {
+                    b.x += diffX;
+                    b.y += diffY;
+                });
+
+                if (player.mover) {
+                    player.mover.x += diffX;
+                    if (player.mover.state !== 'swinging') {
+                        player.mover.y += diffY;
+                        player.mover.fallY += diffY;
+                    }
+                }
+                player.camY += diffY;
+                player.targetCamY += diffY;
+            }
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        function initGame() {
+            player = {
+                color: selectedColor,
+                score: 0,
+                lives: 3,
+                camY: 0,
+                targetCamY: 0,
+                stack: [{ x: (CW / 2) - 60, y: CH - 100, w: 120, h: 60 }],
+                time: 0
+            };
+
+            document.getElementById('hud0').style.color = selectedColor;
+            document.getElementById('startScreen').classList.add('hidden');
+            document.getElementById('instructionScreen').classList.remove('hidden');
+        }
+
+        function startCountdown() {
+            document.getElementById('btnEntendido').classList.add('hidden');
+            const countEl = document.getElementById('countdown');
+            countEl.style.display = 'block';
+            let counter = 3;
+            const timer = setInterval(() => {
+                if (counter > 1) { counter--; countEl.innerText = counter; }
+                else {
+                    clearInterval(timer);
+                    document.getElementById('instructionScreen').classList.add('hidden');
+                    document.getElementById('hud').style.opacity = '1';
+                    spawnBlock();
+                    updateUI();
+                    running = true;
+                }
+            }, 800);
+        }
+
+        function spawnBlock() {
+            const isSpec = player.score > 0 && player.score % 5 === 0;
+            player.mover = {
+                w: isSpec ? 140 : 100,
+                h: 60,
+                x: 0,
+                y: player.camY + 120,
+                state: 'swinging',
+                special: isSpec,
+                fallY: 0
+            };
+        }
+
+        function updateUI() {
+            document.getElementById('s0').innerText = player.score;
+            let h = ""; for (let i = 0; i < 3; i++) h += i < player.lives ? "❤️" : "🖤";
+            document.getElementById('l0').innerHTML = h;
+        }
+
+        function checkCollision() {
+            const top = player.stack[player.stack.length - 1];
+            const diff = Math.abs((player.mover.x + player.mover.w / 2) - (top.x + top.w / 2));
+
+            let margenError = Math.max(0.4, 0.8 - (player.score * 0.02));
+            if (diff > player.mover.w * margenError) {
+                player.lives--;
+                if (player.lives <= 0) endGame(); else spawnBlock();
+            } else {
+                player.stack.push({ x: player.mover.x, y: top.y - 60, w: player.mover.w, h: 60, spec: player.mover.special });
+                player.score++;
+                player.targetCamY -= 60;
+                spawnBlock();
+            }
+            updateUI();
+        }
+
+        function endGame() {
+            running = false;
+            document.getElementById('results').innerText = player.score;
+            document.getElementById('overScreen').classList.remove('hidden');
+        }
+
+        function drawBrick(b, isMover = false) {
+            const r = 10;
+            ctx.save();
+            ctx.fillStyle = 'rgba(0,0,0,0.2)';
+            ctx.beginPath(); ctx.roundRect(b.x, b.y + 6, b.w, b.h, r); ctx.fill();
+
+            ctx.fillStyle = b.spec ? '#ffdb4d' : player.color;
+            ctx.strokeStyle = 'white'; ctx.lineWidth = 3;
+            ctx.beginPath(); ctx.roundRect(b.x, b.y, b.w, b.h, r); ctx.fill(); ctx.stroke();
+
+            const winW = b.w * 0.2, winH = b.h * 0.45, winY = b.y + b.h * 0.2;
+            [b.x + b.w * 0.25 - winW / 2, b.x + b.w * 0.75 - winW / 2].forEach(winX => {
+                ctx.fillStyle = '#62cfd8';
+                ctx.beginPath();
+                ctx.roundRect(winX, winY, winW, winH, [winW / 2, winW / 2, 2, 2]);
+                ctx.fill();
+                ctx.strokeStyle = 'white'; ctx.lineWidth = 2; ctx.stroke();
+                ctx.fillStyle = 'rgba(255,255,255,0.4)';
+                ctx.fillRect(winX + 3, winY + 3, 4, 4);
+            });
+            ctx.restore();
+        }
+
+        function drawWorld() {
+            ctx.save();
+            let g = ctx.createLinearGradient(0, 0, 0, CH);
+            g.addColorStop(0, '#62cfd8'); g.addColorStop(1, '#97dcb2');
+            ctx.fillStyle = g; ctx.fillRect(0, 0, CW, CH);
+
+            ctx.translate(0, -player.camY);
+
+            player.stack.forEach(b => drawBrick(b));
+
+            if (player.mover) {
+                if (player.mover.state === 'swinging') {
+                    player.time += 0.04 + (player.score * 0.005);
+
+                    const swingAmplitude = Math.min(CW / 2.5, 300);
+                    player.mover.x = (CW / 2 - player.mover.w / 2) + Math.sin(player.time) * swingAmplitude;
+                    player.mover.y = player.camY + 120;
+
+                    const centerX = player.mover.x + player.mover.w / 2;
+
+                    ctx.strokeStyle = '#444'; ctx.lineWidth = 4;
+                    ctx.beginPath();
+                    ctx.moveTo(centerX, player.camY - 50);
+                    ctx.lineTo(centerX, player.mover.y - 15);
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#ffdb4d'; ctx.beginPath();
+                    ctx.arc(centerX, player.mover.y - 20, 12, 0, Math.PI * 2); ctx.fill();
+                    ctx.strokeStyle = '#333'; ctx.stroke();
+                    ctx.fillStyle = '#333'; ctx.fillRect(centerX - 12, player.mover.y - 22, 24, 4);
+
+                    drawBrick(player.mover, true);
+                } else {
+                    let gravedad = 20 + (player.score * 1);
+                    player.mover.fallY += gravedad;
+                    drawBrick({ ...player.mover, y: player.mover.fallY }, true);
+
+                    if (player.mover.fallY + player.mover.h >= player.stack[player.stack.length - 1].y) {
+                        checkCollision();
+                    }
+                }
+            }
+            ctx.restore();
+        }
+
+        function loop() {
+            ctx.clearRect(0, 0, CW, CH);
+            if (player) {
+                player.camY += (player.targetCamY - player.camY) * 0.1;
+                drawWorld();
+            }
+            requestAnimationFrame(loop);
+        }
+        /*
+        function tap() {
+            if (running && player && player.mover && player.mover.state === 'swinging') {
+                player.mover.state = 'dropping';
+                player.mover.fallY = player.mover.y;
+            }
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') tap(); });
+        window.addEventListener('mousedown', (e) => { if (e.pointerType !== 'touch') tap(); });
+        window.addEventListener('touchstart', (e) => {
+            if (e.target.tagName !== 'BUTTON') { e.preventDefault(); tap(); }
+        }, { passive: false });
+        */
+
+        function tap() {
+            if (running && player && player.mover && player.mover.state === 'swinging') {
+                player.mover.state = 'dropping';
+                player.mover.fallY = player.mover.y;
+            }
+        }
+
+        // CONTROL DE ENTRADA INTELIGENTE PARA MÓVIL
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') tap();
+        });
+
+        window.addEventListener('mousedown', (e) => {
+            // Evita disparar el juego si tocamos menús o selectores
+            if (e.target.closest('.screen') || e.target.closest('.color-dot')) return;
+            if (e.pointerType !== 'touch') tap();
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            // LA CLAVE: Si tocamos la pantalla de inicio o colores, permitimos el toque natural
+            if (e.target.closest('.screen') || e.target.closest('.color-dot')) {
+                return;
+            }
+
+            // Si no estamos en menú, soltamos bloque y evitamos que la pantalla se mueva
+            e.preventDefault();
+            tap();
+        }, { passive: false });
+
+
+        loop();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1199 @@
+/* --- RESET Y BASE --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    user-select: none;
+    /* Evita que seleccionen texto al jugar rápido */
+}
+
+:root {
+    /* MODO CLARO (Default) */
+    --bg-body: #f8fafc;
+    --bg-panel: #ffffff;
+    --border-color: #e2e8f0;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --bg-input: #f1f5f9;
+    --bg-cell: #ffffff;
+}
+
+body.dark-mode {
+    /* MODO OSCURO */
+    --bg-body: #0f172a;
+    --bg-panel: #1e293b;
+    --border-color: #334155;
+    --text-main: #f1f5f9;
+    --text-muted: #94a3b8;
+    --bg-input: #334155;
+    --bg-cell: #0f172a;
+}
+
+body {
+    background-color: var(--bg-body);
+    color: var(--text-main);
+    transition: background-color 0.3s, color 0.3s;
+    /*background-color: #0f172a;  Azul muy oscuro (Slate 900) 
+    color: #f1f5f9;*/
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+}
+
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background-image: url("./img/logo.png");
+    background-repeat: repeat;
+    background-position: center;
+    background-size: min(250px, 40vw);
+
+    opacity: 0.04;
+    /* 🔥 sutil */
+    pointer-events: none;
+    /* 🔒 no bloquea clics */
+    z-index: 0;
+}
+
+.top-bar-container,
+.grid,
+.keyboard,
+.modal-overlay {
+    position: relative;
+    z-index: 1;
+}
+
+
+/* --- BARRA SUPERIOR DE CONTROL (Dashboard Style) --- */
+/* Agrupamos visualmente el botón de ayuda, objetivo y settings */
+/*.top-bar-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    padding: 10px 20px;
+    /*background-color: #1e293b;
+    border-bottom: 1px solid #334155;
+    flex-wrap: wrap;
+    background-color: var(--bg-panel);
+    border-color: var(--border-color);
+}*/
+
+.help-btn {
+    background: #3b82f6;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.tournament-goal,
+.settings-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.9rem;
+    color: #cbd5e1;
+}
+
+.settings-bar {
+    gap: 15px;
+}
+
+.setting-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+/* Inputs y Selects más estilizados */
+input[type="number"],
+select {
+    background-color: var(--bg-input);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    /*background-color: #334155;
+    border: 1px solid #475569;
+    color: white;*/
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+
+.tournament-goal input {
+    width: 50px;
+}
+
+#timeInput {
+    width: 60px;
+}
+
+select {
+    cursor: pointer;
+}
+
+/* Estados bloqueados */
+.locked {
+    opacity: 0.6;
+    pointer-events: none;
+    filter: grayscale(1);
+}
+
+/* --- LAYOUT PRINCIPAL (GRID 3 COLUMNAS) --- 
+.layout {
+    display: grid; /* Columna Izq (250px) - Centro (Flexible) - Columna Der (250px) 
+    grid-template-columns: 280px 1fr 280px;
+    gap: 20px;
+    padding: 10px 20px;
+    flex-grow: 1;/* Ocupa el espacio restante 
+    max-width: 1400px;
+    margin: 0 auto;
+    width: 100%;
+    align-items: start; /* Alineación superior 
+}
+*/
+.layout {
+    position: relative;
+    /* Para permitir que los hijos se posicionen respecto a este contenedor */
+    display: block;
+    /* Quitamos el grid de columnas anterior */
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    min-height: 600px;
+    padding: 20px;
+}
+
+/* --- PANELES LATERALES (EQUIPOS) --- 
+.side {
+    /*background-color: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    height: fit-content;
+    min-height: 400px;
+    /* Altura mínima visual 
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+    background-color: var(--bg-panel);
+    border-color: var(--border-color);
+}
+*/
+
+.side-d {
+    position: absolute;
+    top: 50px;
+    width: 320px;
+    z-index: 10;
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 500px;
+    flex-wrap: nowrap;
+    align-content: stretch;
+    justify-content: space-evenly;
+}
+
+.side-i {
+    position: absolute;
+    /* Las sacamos del flujo para que no empujen al juego */
+    top: 50px;
+    /* Ajusta según qué tan arriba las quieras */
+    width: 320px;
+    /* Ancho fijo de la tarjeta */
+    z-index: 10;
+    /* Por encima del juego */
+    background-color: var(--bg-panel);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 500px;
+}
+
+/* Posición específica para cada equipo */
+.layout .side-d:nth-child(1) {
+    left: 20px;
+    /* Equipo A a la izquierda */
+}
+
+.layout .side-d:nth-child(3) {
+    right: 20px;
+    /* Equipo B a la derecha */
+}
+
+.layout .side-i:nth-child(1) {
+    left: 20px;
+    /* Equipo A a la izquierda */
+}
+
+.layout .side-i:nth-child(3) {
+    right: 20px;
+    /* Equipo B a la derecha */
+}
+
+
+.team-name {
+    /* text-align: center;
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid;*/
+    /* color: #f8fafc;*/
+    width: 100%;
+    text-align: center;
+    border-bottom: 2px solid;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+}
+
+#nameA {
+    border-color: #3b82f6;
+}
+
+/* Azul */
+#nameB {
+    border-color: #f43f5e;
+}
+
+/* Rojo */
+
+.turn-stat {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin-bottom: 15px;
+}
+
+/* --- ÁREA CENTRAL DE JUEGO --- */
+.game {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    /* justify-content: flex-start;*/
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* Banner de turno mejorado */
+.turn-banner {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto 10px auto;
+    /* Centrado */
+    padding: 8px;
+    border-radius: 8px;
+    font-weight: 900;
+    font-size: 1.1rem;
+    text-align: center;
+    transition: all 0.5s ease;
+    border: 2px solid transparent;
+}
+
+.turn-team-A {
+    background: rgba(59, 130, 246, 0.15);
+    color: #3b82f6;
+    border-color: #3b82f6;
+}
+
+.turn-team-B {
+    background: rgba(244, 63, 94, 0.15);
+    color: #f43f5e;
+    border-color: #f43f5e;
+}
+
+.active-turn-pulse {
+    animation: pulse-turn 2s infinite;
+}
+
+@keyframes pulse-turn {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+/* Timer y Marcador */
+#timer {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e2e8f0;
+    margin-bottom: 5px;
+}
+
+#timer.active {
+    color: #22c55e;
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.4);
+}
+
+#scoreHeader {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #e2e8f0;
+    margin-bottom: 5px;
+}
+
+/* GRID DEL JUEGO */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+    margin-bottom: 15px;
+}
+
+.cell {
+    width: 52px;
+    /* Tamaño fijo escritorio */
+    height: 52px;
+    border: 2px solid #334155;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    /* background-color: #0f172a;*/
+    transition: all 0.2s;
+    background-color: var(--bg-cell);
+    border-color: var(--border-color);
+    color: var(--text-main);
+}
+
+/* Colores de celdas */
+.correct {
+    background-color: #22c55e;
+    border-color: #22c55e;
+}
+
+.present {
+    background-color: #eab308;
+    border-color: #eab308;
+}
+
+.absent {
+    background-color: #475569;
+    border-color: #475569;
+}
+
+.cell-error {
+    animation: shake 0.4s;
+    border-color: #ef4444;
+}
+
+.win-bounce {
+    animation: bounce 0.6s;
+}
+
+/* TECLADO */
+#keyboard {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 100%;
+    max-width: 500px;
+    /*box-shadow: 0 10px 25px rgba(25, 10, 220, 6.1);*/
+}
+
+.keyboard-row {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+}
+
+.key {
+    background-color: #64748b;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 0;
+    flex: 1;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.2s;
+    min-width: 30px;
+    /*box-shadow: 0 10px 25px rgba(225, 110, 220, 3.1);*/
+}
+
+.key:hover {
+    background-color: #94a3b8;
+}
+
+.key.correct {
+    background-color: #22c55e;
+}
+
+.key.present {
+    background-color: #eab308;
+}
+
+.key.absent {
+    background-color: #1e293b;
+    opacity: 0.5;
+}
+
+/* Seleccionamos las teclas que AÚN NO se han jugado */
+.key:not(.correct):not(.present):not(.absent) {
+    background-color: #1e293b;
+    /* Fondo oscuro base */
+    color: white;
+    border: 1px solid transparent;
+    animation: rgbGlow 6s infinite alternate;
+    /* Animación infinita */
+}
+
+/* Desfasamos los tiempos para crear un efecto de "ola" de colores */
+.key:nth-child(5n+1):not(.correct):not(.present):not(.absent) {
+    animation-delay: 0s;
+}
+
+.key:nth-child(5n+2):not(.correct):not(.present):not(.absent) {
+    animation-delay: -1s;
+}
+
+.key:nth-child(5n+3):not(.correct):not(.present):not(.absent) {
+    animation-delay: -2s;
+}
+
+.key:nth-child(5n+4):not(.correct):not(.present):not(.absent) {
+    animation-delay: -3s;
+}
+
+.key:nth-child(5n+5):not(.correct):not(.present):not(.absent) {
+    animation-delay: -4s;
+}
+
+/* La magia de la luz: Cambiamos colores y brillo */
+@keyframes rgbGlow {
+    0% {
+        border-color: #00f3ff;
+        box-shadow: 0 0 10px #00f3ff80, inset 0 0 5px #00f3ff30;
+    }
+
+    33% {
+        border-color: #ff00ea;
+        box-shadow: 0 0 10px #ff00ea80, inset 0 0 5px #ff00ea30;
+    }
+
+    66% {
+        border-color: #00ff66;
+        box-shadow: 0 0 10px #00ff6680, inset 0 0 5px #00ff6630;
+    }
+
+    100% {
+        border-color: #ffaa00;
+        box-shadow: 0 0 10px #ffaa0080, inset 0 0 5px #ffaa0030;
+    }
+}
+
+/* Botón Siguiente */
+.btn-next {
+    margin-top: 15px;
+    padding: 12px 30px;
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+    border: none;
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.4);
+    transition: transform 0.2s;
+}
+
+.btn-next:active {
+    transform: scale(0.95);
+}
+
+.btn-next:disabled {
+    background: #475569;
+    cursor: not-allowed;
+    box-shadow: none;
+    opacity: 0.6;
+}
+
+/* Botón Reiniciar Torneo (Abajo a la derecha o centrado abajo) */
+.btn-reset-all {
+    margin: 20px auto;
+    background: transparent;
+    border: 1px solid #ef4444;
+    color: #ef4444;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.3s;
+    display: block;
+}
+
+.btn-reset-all:hover {
+    opacity: 1;
+    background: rgba(239, 68, 68, 0.1);
+}
+
+/* Footer */
+.game-footer {
+    margin-top: auto;
+    /* Empuja el footer al final */
+    padding: 15px 0;
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.game-footer p {
+    color: #64748b;
+    font-size: 0.85rem;
+}
+
+.game-footer strong {
+    color: #94a3b8;
+}
+
+.game-footer strong:hover {
+    color: #3b82f6;
+    cursor: default;
+}
+
+
+/* --- OVERLAYS Y ANIMACIONES (Sin cambios mayores) --- */
+#winnerOverlay,
+.roulette-overlay,
+.tutorial-overlay,
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+#winnerOverlay {
+    background: rgba(15, 23, 42, 0.95);
+    flex-direction: column;
+    display: none;
+}
+
+.roulette-overlay {
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(5px);
+}
+
+.roulette-box {
+    font-size: 2rem;
+    color: white;
+    text-align: center;
+}
+
+.roulette-anim {
+    animation: spin-text 0.1s infinite;
+}
+
+/* Animaciones */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-5px);
+    }
+
+    75% {
+        transform: translateX(5px);
+    }
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-15px);
+    }
+
+    60% {
+        transform: translateY(-7px);
+    }
+}
+
+.confetti {
+    position: fixed;
+    width: 10px;
+    height: 10px;
+    animation: fall linear forwards;
+    z-index: 999;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) rotate(720deg);
+    }
+}
+
+/* --- RESPONSIVE DESIGN --- */
+
+/* Ajustes para Laptops pequeñas (altura < 700px) */
+@media (max-height: 700px) {
+    .grid {
+        gap: 3px;
+        margin-bottom: 5px;
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        font-size: 1.4rem;
+    }
+
+    .key {
+        padding: 8px 0;
+        font-size: 0.8rem;
+    }
+
+    .top-bar-container {
+        padding: 5px;
+    }
+}
+
+/* Tabletas y Móviles (Pantallas < 900px) */
+@media (max-width: 900px) {
+    .layout {
+        display: flex;
+        flex-direction: column;
+        /* Apilar verticalmente */
+        padding: 10px;
+    }
+
+    .side-i {
+        width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: inline-grid;
+        place-items: center;
+        align-content: stretch;
+        justify-items: center;
+    }
+
+    .side-d {
+       width: 100%;
+        min-height: auto;
+        flex-direction: row;
+        align-items: center;
+        padding: 10px 15px;
+        margin-bottom: 10px;
+        display: inline-grid;
+        place-items: center;
+        align-content: space-between;
+        justify-content: space-around;
+        justify-items: center;
+    }
+
+    .team-name {
+        margin: 0;
+        border: none;
+        font-size: 1.1rem;
+    }
+
+    .turn-stat {
+        margin: 0;
+    }
+
+    /* Ocultar gráficos de historial en móvil para ahorrar espacio si se desea */
+    #histA,
+    #histB {
+        display: none;
+    }
+
+    .cell {
+        width: 55px;
+        height: 55px;
+    }
+
+    /* En móvil las celdas deben ser grandecitas para tocar */
+
+    /* El orden visual: Juego primero, Equipos abajo */
+    .game {
+        order: 1;
+        margin-bottom: 20px;
+    }
+
+    .side-i:nth-child(1) {
+        order: 2;
+        border-left: 5px solid #3b82f6;
+    }
+
+    .side-i:nth-child(3) {
+        order: 3;
+        border-left: 5px solid #f43f5e;
+    }
+
+    .side-d:nth-child(1) {
+        order: 2;
+        border-left: 5px solid #3b82f6;
+    }
+
+    .side-d:nth-child(3) {
+        order: 3;
+        border-left: 5px solid #f43f5e;
+    }
+
+}
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    .cell {
+        width: 13vw;
+        height: 13vw;
+        max-width: 50px;
+        max-height: 50px;
+    }
+
+    .top-bar-container {
+        flex-direction: column;
+        gap: 5px;
+    }
+}
+
+.highlight-focus {
+    position: relative;
+    z-index: 1001 !important;
+    /* Por encima del overlay oscuro */
+    background-color: #3366cc !important;
+    box-shadow: 0 0 20px 10px rgb(156, 146, 146);
+    border-radius: 10px;
+    pointer-events: none;
+    /* Evita que el usuario toque mientras está en tutorial */
+}
+
+.tutorial-overlay {
+    background-color: rgba(244, 247, 249, 0.6);
+    z-index: 1000;
+}
+
+.tutorial-arrow {
+    position: fixed;
+    width: 0;
+    height: 0;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 20px solid #3b82f6;
+    transform: rotate(var(--rot));
+    z-index: 1002;
+    transition: all 0.3s ease;
+}
+
+.step-card {
+    position: fixed;
+    background: white;
+    color: #1e293b;
+    padding: 20px;
+    border-radius: 12px;
+    width: 300px;
+    z-index: 1002;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.modal-content {
+    background-color: var(--bg-panel);
+    color: var(--text-main);
+    border: 1px solid var(--border-color);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+/* Cambiamos el color fijo por la variable de texto principal */
+.modal-content h2,
+.modal-content p {
+    color: var(--text-main);
+}
+
+/* Si quieres que los párrafos sean un poco más claros que el título (estética) */
+.modal-content p {
+    opacity: 0.9;
+    font-size: 15px;
+}
+
+
+/* Contenedor para las filas de ejemplo (GATOS, PERRO, etc) */
+.example-row {
+    display: flex;
+    gap: 5px;
+    margin: 10px 0;
+    justify-content: center;
+}
+
+/* Celdas pequeñas para el tutorial (para que no ocupen toda la pantalla) */
+.example-row .cell-mini {
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    border-radius: 6px;
+    color: white;
+    font-size: 1rem;
+}
+
+.example-row p {
+    color: var(--text-muted);
+}
+
+.fair-play {
+    background: rgba(0, 0, 0, 0.05);
+    /* Fondo sutil que funciona en ambos */
+    border-left: 4px solid #ff9800;
+    margin-top: 15px;
+    text-align: left;
+    /* Mejor lectura para reglas */
+    width: 100%;
+}
+
+.fair-play strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.fair-play span {
+    display: block;
+    margin-bottom: 4px;
+    margin-left: 10px;
+}
+
+.fair-play .warning {
+    font-weight: 600;
+    color: #d32f2f;
+}
+
+.fair-play .limit {
+    font-weight: 500;
+    color: #1565c0;
+}
+
+/* Específicamente cuando el body tiene .dark-mode */
+.dark-mode .modal-content h2,
+.dark-mode .modal-content p {
+    color: #f1f5f9;
+    /* Un blanco azulado suave para no cansar la vista */
+}
+
+.dark-mode .fair-play {
+    background: rgba(255, 255, 255, 0.05);
+    /* Fondo claro sutil sobre negro */
+    color: #cbd5e1;
+}
+
+.dark-mode .fair-play strong {
+    color: #fff;
+}
+
+/* ===== TOP BAR GRID REAL ===== */
+.top-bar-container {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+/* ===== BLOQUES ===== */
+#goalBox {
+    justify-self: center;
+}
+
+#categoryBox {
+    width: 100%;
+}
+
+#settingsBox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    justify-self: end;
+}
+
+
+/* ===== SELECT CATEGORÍA ===== */
+#categorySelect {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+}
+
+
+/* ===== BOTONES HELP ===== */
+.setting-help {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    background: #334155;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.setting-help:hover {
+    transform: scale(1.08);
+    background: #475569;
+}
+
+/*NUEVO RESPONSIVE*/
+
+/* ===== TOP BAR BASE ===== */
+.top-bar-container {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 12px;
+    padding: 12px 16px;
+    align-items: center;
+
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+/* ===== SETTINGS INTERNOS ===== */
+#settingsBox {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 10px;
+    align-items: center;
+}
+
+
+/* ===== CATEGORÍA FLEXIBLE ===== */
+#categoryBox {
+    min-width: 0;
+    /* 🔥 clave para que no se rompa */
+}
+
+#categorySelect {
+    width: 100%;
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    background: transparent;
+    color: inherit;
+    font-weight: 600;
+}
+
+.boxHelp {
+    display: inline-flex;
+}
+
+/* ===== BOTONES ===== */
+.setting-help {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 16px;
+    font-weight: bold;
+
+    background: #334155;
+    color: white;
+    transition: all 0.2s ease;
+}
+
+.setting-help:hover {
+    transform: scale(1.08);
+    background: #475569;
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 768px) {
+
+    .top-bar-container {
+        grid-template-columns: 1fr;
+    }
+
+    #settingsBox {
+        grid-template-columns: 1fr auto auto auto;
+    }
+}
+
+
+/* ===== MÓVIL ===== */
+@media (max-width: 480px) {
+
+    .top-bar-container {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    /* settings en 2 filas reales */
+    #settingsBox {
+        grid-template-columns: 1fr auto;
+        grid-template-rows: auto auto;
+        gap: 8px;
+        justify-self: center;
+    }
+
+    /* categoría ocupa fila completa */
+    #categoryBox {
+        grid-column: 1 / -1;
+    }
+
+    /* tiempo + botones en segunda fila */
+    #settingsBox .setting-item:nth-child(2) {
+        justify-self: start;
+    }
+
+    .setting-help {
+        justify-self: end;
+    }
+}
+
+@media (max-width: 480px) {
+    body::before {
+        background-size: 70vw;
+        opacity: 0.03;
+    }
+}
+
+
+@media (max-width: 1100px) {
+
+    /* Si la pantalla es pequeña, las tarjetas vuelven a su lugar para no tapar el teclado */
+    .layout {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .side-d {
+        position: static;
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .side-i {
+        position: static;
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .game {
+        order: -1;
+        /* El juego siempre primero */
+    }
+}
+
+#histA,
+#histB {
+    margin-top: 10px;
+    width: 50%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    min-height: 28px;
+}
+
+.trophy {
+    font-size: 22px;
+    animation: pop 0.3s ease;
+}
+
+.star {
+    font-size: 18px;
+    animation: pop 0.3s ease;
+}
+
+.no-wins {
+    opacity: 0.6;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+@keyframes pop {
+    0% {
+        transform: scale(0.6);
+        opacity: 0;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+#nextRoundBtn {
+    transition: all 0.3s ease;
+    /* Para que el cambio de opacidad sea suave */
+}

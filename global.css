@@ -1,0 +1,158 @@
+:root {
+  /* 🎯 BASE */
+  --bg-color: #F8FAFC;
+  --bg-soft: #F1F5F9;
+  --bg-dark: #0F172A;
+
+  --text-color: #334155;
+  --text-light: #64748B;
+  --text-inverse: #FFFFFF;
+
+  /* 🎮 PRIMARIOS */
+  --primary: #4A90E2;
+  --primary-dark: #1E3A8A;
+  --primary-light: #93C5FD;
+
+  /* 🚦 ESTADOS */
+  --success: #10B981;
+  --success-soft: #D1FAE5;
+
+  --warning: #F59E0B;
+  --warning-soft: #FEF3C7;
+
+  --danger: #EF4444;
+  --danger-soft: #FEE2E2;
+
+  --info: #06B6D4;
+  --info-soft: #CFFAFE;
+
+  /* 🌈 ACENTOS */
+  --purple: #8B5CF6;
+  --purple-dark: #6D28D9;
+
+  --pink: #EC4899;
+  --pink-soft: #FBCFE8;
+
+  --orange: #F97316;
+  --yellow: #EAB308;
+
+  --lime: #84CC16;
+  --teal: #14B8A6;
+
+  /* ⚡ GAMING / NEÓN */
+  --neon-blue: #00F0FF;
+  --neon-green: #39FF14;
+  --neon-pink: #FF00E5;
+  --neon-purple: #A855F7;
+  --neon-yellow: #FFF700;
+
+  /* 🎨 DINÁMICOS (gradientes / animaciones) */
+  --dinamic1: #3B82F8;
+  --dinamic2: #9333EA;
+  --dinamic3: #EC4899;
+  --dinamic4: #F59E0B;
+  --dinamic5: #10B981;
+
+  /* 🧱 BORDES Y SOMBRAS */
+  --border-color: #E2E8F0;
+  --border-strong: #CBD5F5;
+
+  --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+  --shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+  --shadow-lg: 0 10px 15px rgba(0,0,0,0.15);
+
+  /* 🎮 HUD / OVERLAY */
+  --overlay-dark: rgba(15, 23, 42, 0.8);
+  --overlay-light: rgba(255, 255, 255, 0.6);
+
+  /* 🔥 EFECTOS ESPECIALES */
+  --glow-blue: 0 0 10px #3B82F8;
+  --glow-green: 0 0 10px #10B981;
+  --glow-pink: 0 0 10px #EC4899;
+}
+
+* { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 2rem 1rem;
+    width: 100%;
+}
+
+h1 { color: var(--primary); margin: 0 0 0.5rem 0; font-size: 2.5rem; }
+p { color: #64748B; margin: 0; font-size: 1.1rem; }
+
+.btn-back {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--text-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+.btn-action {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+/* Dashboard Grid */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+    width: 100%;
+    max-width: 800px;
+}
+
+.game-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    text-decoration: none;
+    color: var(--text-color);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: transform 0.2s, box-shadow 0.2s;
+    border-bottom: 4px solid #CBD5E1;
+}
+
+.game-card:hover, .game-card:active {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0,0,0,0.1);
+}
+
+.game-card.charadas { border-color: var(--dinamic1); }
+.game-card.respiracion { border-color: var(--dinamic2); }
+.game-card.memoria { border-color: var(--dinamic3); }
+.game-card.bloques { border-color: var(--dinamic4); }
+.game-card.tetris { border-color: var(--dinamic5); }
+.game-card.conecta-cuatro { border-color: var(--pink); }
+.game-card.torre { border-color: var(--neon-blue); }
+.game-card.peliculas { border-color: var(--neon-green); }
+.game-card.verbos { border-color: var(--neon-pink); }   
+.game-card.sudoku { border-color: var(--neon-purple); }
+.game-card.wordle { border-color: var(--neon-yellow); }
+
+.game-icon { font-size: 3rem; margin-bottom: 10px; }
+.game-title { font-weight: bold; font-size: 1.1rem; }

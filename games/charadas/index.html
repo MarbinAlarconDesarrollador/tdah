@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Charadas</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+            <a href="../../index.html" class="btn-back">← Menú</a>
+            <h2>Charadas Pro</h2>
+        </header>
+
+        <div class="game-container">
+            <div class="card-3d-container">
+                <div id="card-inner" class="card-inner">
+                    <div class="card-front">
+                        <span>Haz clic o presiona ESPACIO para empezar</span>
+                    </div>
+                    <div id="word-display" class="card-back">¡Listo!</div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button id="next-btn" class="action-btn">Siguiente (Espacio) 🎲</button>
+                <button id="enable-sensor" class="btn-sensor">Activar Movimiento 📱</button>
+            </div>
+            <p class="hint">PC: Usa las flechas | Móvil: Inclina hacia arriba</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

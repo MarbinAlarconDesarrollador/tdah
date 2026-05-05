@@ -1,0 +1,44 @@
+.nivel-texto {
+    color: var(--primary);
+    background: #e2e8f0;
+    display: inline-block;
+    padding: 5px 15px;
+    border-radius: 20px;
+    margin-top: 5px;
+}
+
+.board {
+    display: grid;
+    gap: 10px;
+    margin-top: 20px;
+    justify-content: center; /* Centra el tablero siempre */
+}
+
+.card {
+    width: 70px;
+    height: 70px;
+    background-color: var(--primary, #4A90E2);
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    color: transparent;
+    cursor: pointer;
+    transition: transform 0.3s, background-color 0.3s;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    user-select: none;
+}
+
+.card.flipped {
+    background-color: white;
+    color: black;
+    border: 2px solid var(--primary, #4A90E2);
+}
+
+/* Color para cuando encuentran el par correcto (Refuerzo positivo) */
+.card.matched {
+    background-color: #dcfce7; /* Verde muy suave */
+    border-color: #22c55e;
+    color: black;
+}

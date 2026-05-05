@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sudoku Master PWA</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+       <div class="top-bar-container">
+        <div class="level-group">
+            <select id="level-select" class="level-select">
+                <option value="1">Nivel 1 (Muy Fácil)</option>
+                <option value="2">Nivel 2 (Fácil)</option>
+                <option value="3">Nivel 3 (Medio)</option>
+                <option value="4">Nivel 4 (Difícil)</option>
+                <option value="5">Nivel 5 (Experto)</option>
+            </select>
+        </div>
+
+        <div class="status-group">
+            <div id="timer-display">00:00</div>
+            <button id="theme-toggle" title="Cambiar tema">🌙</button>
+        </div>
+    </div>
+
+
+    <main>
+        <div id="sudoku-board"></div>
+        <div class="controls">
+            <button id="check-btn" class="btn primary">Verificar</button>
+            <button id="hint-btn" class="btn warning">Pista (+10s)</button>
+            <button id="new-game-btn" class="btn secondary">Nuevo Juego</button>
+        </div>
+        <p id="message"></p>
+    </main>
+
+    <footer class="game-footer">
+        <p>Desarrollado por <strong>Marbin Alarcón</strong> &copy; 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 5px;">Con colaboración de <strong>Creando Soft Ltda.</strong></p>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>

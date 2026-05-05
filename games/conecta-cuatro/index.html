@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FocusPlay - Conecta 4</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <header>
+
+            <h1>Conecta 4</h1>
+            <div id="status" class="status-panel">
+                Es el turno de: <span id="current-player">Rojo</span>
+            </div>
+        </header>
+
+        <main id="c4-board"></main>
+        <br><br>
+        <p class="instruccion-tdah">¡Toca una columna para soltar tu ficha!</p>
+        <div style="align-content: center;">
+            <a href="../../index.html" class="btn-back">← Salir</a>
+            <button onclick="resetGame()" class="btn-action">Empezar de nuevo</button>
+        </div>
+
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>

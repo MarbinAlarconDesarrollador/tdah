@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Creando Wordle por Equipos </title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="stylesheet" href="style.css">
+    <meta name="theme-color" content="#0f172a">
+</head>
+
+<body>
+
+    <div class="top-bar-container">
+        <div class="settings-bar" id="settingsBox">
+            <div class="boxHelp">
+                <button class="setting-help" onclick="startInteractiveTutorial()" title="Cómo jugar">?</button>
+                <button id="themeToggle" class="setting-help" onclick="toggleTheme()" title="Modo Oscuro / Claro"
+                    style="background: #64748b;">
+                    🌓
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="winnerOverlay">
+        <h1 style="font-size: 6rem; margin: 0;">🏆</h1>
+        <h2 id="winnerName" style="font-size: 3.5rem; margin: 10px 0; color: #f1f5f9; text-align:center;">GANADOR</h2>
+        <p style="font-size: 1.5rem; color: #94a3b8; margin-bottom: 30px;">¡Torneo Finalizado!</p>
+        <button class="btn-next" style="width: 250px; font-size: 1.2rem;" onclick="hardReset()">NUEVO TORNEO</button>
+    </div>
+
+    <div id="categoryRoulette" class="roulette-overlay" style="display:none;">
+        <div class="roulette-box">
+            <div class="roulette-title">CATEGORÍA</div>
+            <div id="rouletteText" class="roulette-text">...</div>
+        </div>
+    </div>
+
+    <div class="layout">
+        <div class="side-i">
+            <div style="text-align: center;">
+                <h1 style="margin: 0 0 10px 0; font-size: 1.2rem; opacity: 0.4; letter-spacing: 2px;">WORDLE CREANDO SOFT</h1>
+            </div>
+            <br>
+            <div id="categoryBox" class="setting-item">
+                <label for="categorySelect">CATEGORÍA:</label>
+                <select id="categorySelect" onchange="updateCategoryParams()">
+                    <option value="GENERAL">GENERAL (MIXTO)</option>
+                    <option value="ANIMALES">ANIMALES</option>
+                    <option value="PAISES">PAÍSES / CIUDADES</option>
+                    <option value="NOMBRES">NOMBRES</option>
+                    <option value="COMIDA">COMIDA</option>
+                    <option value="VERBOS">VERBOS</option>
+                    <option value="INGLES">PALABRAS EN INGLES</option>
+                </select>
+            </div>
+            <br>
+            <div id="goalBox" class="tournament-goal">
+                <span>META:</span>
+                <input type="number" id="goalInput" value="5" min="1" onchange="saveGoal()">
+                <span>PUNTOS</span>
+            </div>
+            <br>
+            <div class="setting-item">
+                <label for="timeInput">⏱️</label>
+                <input type="number" id="timeInput" value="120" min="30" max="300" onchange="updateCategoryParams()">
+                <span>SEGUNDOS</span>
+            </div>
+            <br>
+            <div id="turnIndicator" class="turn-banner">
+                TURNO: <span id="activePlayerName">---</span>
+            </div>
+
+            <div id="timer">00</div>
+            <div id="scoreHeader"></div>
+        </div>
+
+        <div class="game">
+            <div id="grid" class="grid"></div>
+
+            <div id="message"
+                style="min-height: 30px; font-weight: 800; color: #ef4444; margin: 5px 0; text-align: center;"></div>
+
+            <div id="keyboard"></div>
+
+            <button id="btnNext" class="btn-next" onclick="resetRound()">SIGUIENTE RONDA</button>
+        </div>
+
+        <div class="side-d">
+
+            <h3 id="nameA" class="team-name" contenteditable="true" onblur="saveNames()">EQUIPO UNO</h3>
+            <div id="turnStatA" class="turn-stat">Partidas: 0</div>
+            <div id="histA"></div>
+           
+            <h3 id="nameB" class="team-name" contenteditable="true" onblur="saveNames()">EQUIPO DOS</h3>
+            <div id="turnStatB" class="turn-stat">Partidas: 0</div>
+            <div id="histB"></div>
+        </div>
+
+        
+        <button id="nextRoundBtn" class="btn-reset-all" onclick="hardReset()">⚠️ REINICIAR TORNEO</button>
+
+    </div>
+
+
+    <footer class="game-footer">
+        <p>Desarrollado por <strong>Marbin Alarcón</strong> &copy; 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 5px;">Con colaboración de <strong>Creando Soft Ltda.</strong></p>
+    </footer>
+
+    <div id="tutorialOverlay" class="tutorial-overlay" style="display: none;">
+        <div id="tutorialArrow" class="tutorial-arrow"></div>
+        <div id="stepContent" class="step-card">
+            <h3 id="stepTitle">Título</h3>
+            <p id="stepText">Texto...</p>
+            <div class="step-footer">
+                <button onclick="nextStep()" id="btnNextStep">Siguiente</button>
+                <button onclick="skipTutorial()" class="btn-skip">Saltar</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="tutorialModal" class="modal-overlay" style="display: none;">
+        <div class="modal-content">
+            <h2>Cómo Jugar</h2>
+            <p>Adivina la palabra oculta en 6 intentos.</p>
+
+            <hr style="width:100%; border:0; border-top:1px solid #eee; margin:15px 0;">
+
+            <div style="text-align: left; width: 100%;">
+                <div class="example-row">
+                    <div class="cell-mini correct">G</div>
+                    <div class="cell-mini absent">A</div>
+                    <div class="cell-mini absent">T</div>
+                    <div class="cell-mini absent">O</div>
+                    <div class="cell-mini absent">S</div>
+                </div>
+                <p><small><strong>VERDE:</strong> La letra G está en la palabra y en la posición correcta.</small></p>
+
+                <div class="example-row">
+                    <div class="cell-mini absent">P</div>
+                    <div class="cell-mini present">E</div>
+                    <div class="cell-mini absent">R</div>
+                    <div class="cell-mini absent">R</div>
+                    <div class="cell-mini absent">O</div>
+                </div>
+                <p><small><strong>AMARILLO:</strong> La letra E existe pero en otra posición.</small></p>
+
+                <div class="example-row">
+                    <div class="cell-mini absent">A</div>
+                    <div class="cell-mini absent">R</div>
+                    <div class="cell-mini absent">B</div>
+                    <div class="cell-mini absent">O</div>
+                    <div class="cell-mini absent">L</div>
+                </div>
+                <p><small><strong>GRIS:</strong> Esas letras no están en la palabra.</small></p>
+                <br>
+                <div class="fair-play">
+                    <strong>🛡️ Regla de Fair Play</strong>
+                    <span>La ruleta seleccionará una temática de forma aleatoria.</span>
+                    <span><span class="warning">¡Aprovecha!</span> El uso de la categoría solo se contará si empiezas a
+                        escribir.</span>
+                    <span>Si la categoría te parece muy difícil, puedes pasar el turno antes de tocar el teclado.</span>
+                    <span class="limit">Límite: Cada equipo puede usar cada categoría máximo 2 veces por torneo.</span>
+                </div>
+
+            </div>
+
+            <button class="btn-next" onclick="closeTutorial()" style="width: 100%;">¡ENTENDIDO!</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Registro del Service Worker para PWA
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('sw.js').catch(console.error);
+        }
+    </script>
+</body>
+
+</html>
