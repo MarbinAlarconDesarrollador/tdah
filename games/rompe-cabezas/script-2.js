@@ -20,51 +20,11 @@ let touchOffsetY = 0;
 let touchSourceSlot = null;
 
 const images = [
-    // Animales
-    { src: "https://picsum.photos/id/237/600",  label: "🐶 Perro"         },
-    { src: "https://picsum.photos/id/1025/600", label: "🐕 Perro en playa"},
-    { src: "https://picsum.photos/id/1062/600", label: "🐱 Gato"          },
-    { src: "https://picsum.photos/id/593/600",  label: "🐦 Pájaro"        },
-    { src: "https://picsum.photos/id/1074/600", label: "🦁 Animal salvaje"},
-    { src: "https://picsum.photos/id/169/600",  label: "🐘 Elefante"      },
-    { src: "https://picsum.photos/id/582/600",  label: "🦋 Mariposa"      },
-    { src: "https://picsum.photos/id/839/600",  label: "🐟 Pez"           },
-
-    // Naturaleza
-    { src: "https://picsum.photos/id/1069/600", label: "🌺 Flores"        },
-    { src: "https://picsum.photos/id/1084/600", label: "🌿 Bosque"        },
-    { src: "https://picsum.photos/id/15/600",   label: "🏔 Montañas"      },
-    { src: "https://picsum.photos/id/29/600",   label: "🌅 Amanecer"      },
-    { src: "https://picsum.photos/id/119/600",  label: "🌊 Mar"           },
-    { src: "https://picsum.photos/id/192/600",  label: "🌲 Bosque verde"  },
-    { src: "https://picsum.photos/id/218/600",  label: "🍂 Otoño"         },
-    { src: "https://picsum.photos/id/257/600",  label: "🌸 Flores rosas"  },
-    { src: "https://picsum.photos/id/365/600",  label: "🍓 Fresas"        },
-    { src: "https://picsum.photos/id/429/600",  label: "🌻 Girasoles"     },
-    { src: "https://picsum.photos/id/488/600",  label: "🏞 Paisaje"       },
-    { src: "https://picsum.photos/id/534/600",  label: "🌄 Valle"         },
-
-    // Ciudad / Arquitectura
-    { src: "https://picsum.photos/id/1048/600", label: "🏙 Ciudad"        },
-    { src: "https://picsum.photos/id/1060/600", label: "🌉 Puente"        },
-    { src: "https://picsum.photos/id/164/600",  label: "🏛 Edificio"      },
-    { src: "https://picsum.photos/id/271/600",  label: "🏠 Casa"          },
-    { src: "https://picsum.photos/id/318/600",  label: "🚂 Tren"          },
-    { src: "https://picsum.photos/id/338/600",  label: "🌆 Atardecer urbano"},
-    { src: "https://picsum.photos/id/475/600",  label: "🏟 Estadio"       },
-    { src: "https://picsum.photos/id/558/600",  label: "⛪ Iglesia"       },
-
-    // Comida
-    { src: "https://picsum.photos/id/292/600",  label: "🍕 Comida"        },
-    { src: "https://picsum.photos/id/431/600",  label: "☕ Café"          },
-    { src: "https://picsum.photos/id/493/600",  label: "🍰 Postre"        },
-    { src: "https://picsum.photos/id/575/600",  label: "🥗 Ensalada"      },
-
-    // Texturas / Abstracto
-    { src: "https://picsum.photos/id/1/600",    label: "💻 Tecnología"    },
-    { src: "https://picsum.photos/id/20/600",   label: "🎨 Arte"          },
-    { src: "https://picsum.photos/id/42/600",   label: "🌀 Abstracto"     },
-    { src: "https://picsum.photos/id/60/600",   label: "🖼 Colores"       },
+    "https://picsum.photos/id/237/600",
+    "https://picsum.photos/id/1025/600",
+    "https://picsum.photos/id/1069/600",
+    "https://picsum.photos/id/1074/600",
+    "https://picsum.photos/id/1084/600"
 ];
 
 let currentImage = "";
@@ -87,19 +47,8 @@ function startGame() {
     time = 0;
     updateUI();
     message.innerHTML = "";
-    const chosen = images[Math.floor(Math.random() * images.length)];
-    currentImage = chosen.src;
+    currentImage = images[Math.floor(Math.random() * images.length)];
     guideImage.src = currentImage;
-
-    // Mostrar nombre de la imagen actual
-    let labelEl = document.getElementById("imageLabel");
-    if (!labelEl) {
-        labelEl = document.createElement("p");
-        labelEl.id = "imageLabel";
-        labelEl.style.cssText = "text-align:center;font-weight:bold;font-size:18px;margin-top:10px;color:var(--primary);";
-        preview.parentNode.insertBefore(labelEl, preview);
-    }
-    labelEl.textContent = chosen.label;
     createBoard();
     timer = setInterval(() => {
         time++;
