@@ -1,12 +1,12 @@
 const charadasWords = [
     // --- Originales ---
-    "Un mono comiendo plátano 🐒",
-    "Un robot sin batería 🤖",
-    "Alguien caminando en la luna 🌕",
+    "Un mono comiendo plátano 🐒", 
+    "Un robot sin batería 🤖", 
+    "Alguien caminando en la luna 🌕", 
     "Un gato asustado 🐈",
-    "Tocando la guitarra eléctrica 🎸",
+    "Tocando la guitarra eléctrica 🎸", 
     "Un superhéroe volando 🦸",
-    "Comiendo espaguetis muy largos 🍝",
+    "Comiendo espaguetis muy largos 🍝", 
     "Un dinosaurio enojado 🦖",
 
     // --- Animales ---
@@ -48,60 +48,32 @@ const charadasWords = [
     "Un dragón intentando apagar una vela sin quemar nada 🐲"
 ];
 
-// ── Estado ──────────────────────────────────────────────
-let lastIndex = -1;
-let playCount = 0;
 
-// ── Helpers ─────────────────────────────────────────────
-function getRandomWord() {
-    let index;
-    do {
-        index = Math.floor(Math.random() * charadasWords.length);
-    } while (index === lastIndex);   // nunca repite la misma dos veces seguidas
-    lastIndex = index;
-    return charadasWords[index];
-}
+// Variables globales
+let lastUpdate = 0;
 
-function updateCounter() {
-    playCount++;
-    const counter = document.getElementById('counter');
-    counter.textContent = `${playCount} jugada${playCount !== 1 ? 's' : ''}`;
-    counter.classList.remove('bump');
-    void counter.offsetWidth;          // reflow para reiniciar animación
-    counter.classList.add('bump');
-}
-
-// ── Init ─────────────────────────────────────────────────
 window.addEventListener('load', () => {
-    const cardInner   = document.getElementById('card-inner');
+    const cardInner = document.getElementById('card-inner');
     const wordDisplay = document.getElementById('word-display');
-    const btnNext     = document.getElementById('next-btn');
+    const btnNext = document.getElementById('next-btn');
+    const btnSensor = document.getElementById('enable-sensor');
 
-    let isAnimating = false;
-
+    // FUNCIÓN PARA CAMBIAR PALABRA
     function showNextWord() {
-        if (isAnimating) return;
-        isAnimating = true;
-
-        // Flip de vuelta al frente
         cardInner.classList.remove('is-flipped');
-
+        
         setTimeout(() => {
-            wordDisplay.textContent = getRandomWord();
+            const nextWord = charadasWords[Math.floor(Math.random() * charadasWords.length)];
+            wordDisplay.innerText = nextWord;
             cardInner.classList.add('is-flipped');
-            updateCounter();
-            if ('vibrate' in navigator) navigator.vibrate(40);
-            setTimeout(() => { isAnimating = false; }, 400);
-        }, 200);
+            if ("vibrate" in navigator) navigator.vibrate(50);
+        }, 150);
     }
 
-    // Clic en botón
+    // EVENTOS DE CLIC Y TECLADO (PC)
     btnNext.addEventListener('click', showNextWord);
-
-    // Clic en la tarjeta
     cardInner.addEventListener('click', showNextWord);
-
-    // Teclado (PC)
+    
     window.addEventListener('keydown', (e) => {
         if (e.code === 'Space' || e.code === 'ArrowRight') {
             e.preventDefault();
@@ -109,5 +81,31 @@ window.addEventListener('load', () => {
         }
     });
 
-    console.log('Charadas Pro listo ✔');
+    // EVENTO DE SENSOR (MÓVIL)
+    function handleMotion(event) {
+        const now = Date.now();
+        if (now - lastUpdate < 1500) return; 
+
+        // Detectar inclinación fuerte (hacia arriba o hacia abajo)
+        if (event.beta > 130 || event.beta < 30) {
+            lastUpdate = now;
+            showNextWord();
+        }
+    }
+
+    // BOTÓN PARA ACTIVAR SENSORES
+    btnSensor.addEventListener('click', async () => {
+        if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+            const permission = await DeviceOrientationEvent.requestPermission();
+            if (permission === 'granted') {
+                window.addEventListener('deviceorientation', handleMotion);
+                btnSensor.innerText = "¡Sensor Activo! ✅";
+            }
+        } else {
+            window.addEventListener('deviceorientation', handleMotion);
+            btnSensor.style.display = 'none';
+        }
+    });
+
+    console.log("Juego de Charadas listo para PC y Móvil.");
 });

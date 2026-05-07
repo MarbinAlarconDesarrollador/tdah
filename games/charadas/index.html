@@ -4,7 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Charadas</title>
+    <title>Charadas Pro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&family=Righteous&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="style.css">
 </head>
@@ -13,26 +16,35 @@
     <div class="app-container">
         <header>
             <a href="../../index.html" class="btn-back">
-                <img src="../../assets/meta.png" alt="Flecha hacia atrás" >
+                <img src="../../assets/meta.png" alt="Flecha hacia atrás">
                 Ir al Menú</a>
-            <h2>Charadas Pro</h2>
+            <h1>Charadas <span class="accent">Pro</span></h1>
+            <div class="counter" id="counter">0 jugadas</div>
         </header>
 
         <div class="game-container">
             <div class="card-3d-container">
                 <div id="card-inner" class="card-inner">
                     <div class="card-front">
-                        <span>Haz clic o presiona ESPACIO para empezar</span>
+                        <div class="front-content">
+                            <span class="front-icon">🎭</span>
+                            <span class="front-text">¡Toca para empezar!</span>
+                            <span class="front-hint">o presiona ESPACIO</span>
+                        </div>
                     </div>
                     <div id="word-display" class="card-back">¡Listo!</div>
                 </div>
             </div>
 
             <div class="controls">
-                <button id="next-btn" class="action-btn">Siguiente (Espacio) 🎲</button>
-                <button id="enable-sensor" class="btn-sensor">Activar Movimiento 📱</button>
+                <button id="next-btn" class="action-btn">
+                    <span class="btn-icon">🎲</span>
+                    <span>Siguiente</span>
+                    <kbd>Espacio</kbd>
+                </button>
             </div>
-            <p class="hint">PC: Usa las flechas | Móvil: Inclina hacia arriba</p>
+
+            <p class="hint">Toca la tarjeta · Espacio · → Flecha derecha</p>
         </div>
     </div>
 
