@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Simon Dice - TDAH Kids</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="header">
+
+            <h1>🧠 Simon Dice</h1>
+
+            <p>
+                Juego ideal para niños con TDAH.
+                Ayuda a fortalecer:
+                memoria de trabajo,
+                atención auditiva
+                y control inhibitorio.
+            </p>
+
+            <div class="info">
+
+                <div class="badge">
+                    🎯 Nivel: <span id="levelText">1</span>
+                </div>
+
+                <div class="badge">
+                    🏆 Mejor Puntaje: <span id="bestScore">0</span>
+                </div>
+
+                <div class="badge">
+                    ⚡ Velocidad: <span id="speedText">Normal</span>
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="startGame()">
+                    ▶️ Iniciar Juego
+                </button>
+
+                <button class="warning" onclick="resetGame()">
+                    🔄 Reiniciar
+                </button>
+
+            </div>
+
+            <div class="modes">
+
+                <div class="mode active" onclick="setSpeed(700,this)">
+                    Fácil
+                </div>
+
+                <div class="mode" onclick="setSpeed(450,this)">
+                    Medio
+                </div>
+
+                <div class="mode" onclick="setSpeed(250,this)">
+                    Difícil
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="board-container">
+
+            <div class="board">
+
+                <div class="pad green" data-color="green"></div>
+                <div class="pad red" data-color="red"></div>
+                <div class="pad yellow" data-color="yellow"></div>
+                <div class="pad blue" data-color="blue"></div>
+
+                <div class="center">
+                    <h2>SIMON</h2>
+                    <div class="level" id="levelNumber">1</div>
+                </div>
+
+            </div>
+
+            <div class="message" id="message">
+                Presiona "Iniciar Juego"
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
