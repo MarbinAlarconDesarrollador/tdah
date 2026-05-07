@@ -17,3 +17,25 @@
 
 .grow { transform: scale(2.5); }
 .shrink { transform: scale(1); }
+
+.btn-back-respiracion {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--success);
+    color: white;
+    text-decoration: none;
+    border-radius: 20px;
+    margin: 20px;
+    font-weight: bold;
+}
+
+.btn-back-respiracion:hover {
+    background-color:  #059669;
+}
+
+.btn-back-respiracion img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
