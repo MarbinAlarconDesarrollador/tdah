@@ -111,6 +111,13 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
     background-color: var(--back-hover);
 }
 
+.btn-back img {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
 .btn-action {
     display: inline-block;
     padding: 10px 20px;
