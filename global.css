@@ -172,6 +172,7 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 .game-card.verbos { border-color: var(--neon-pink); }   
 .game-card.sudoku { border-color: var(--neon-purple); }
 .game-card.wordle { border-color: var(--neon-yellow); }
+.game-card.busca-y-encuentra { border-color: var(--lime); }
 
 .game-icon { font-size: 3rem; margin-bottom: 10px; }
 .game-title { font-weight: bold; font-size: 1.1rem; }
