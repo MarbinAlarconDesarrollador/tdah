@@ -7,11 +7,12 @@
     <title>Sudoku Master PWA</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#ffffff">
+    <link rel="stylesheet" href="../../global.css">
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-       <div class="top-bar-container">
+    <div class="top-bar-container">
         <div class="level-group">
             <select id="level-select" class="level-select">
                 <option value="1">Nivel 1 (Muy Fácil)</option>
@@ -36,6 +37,9 @@
             <button id="hint-btn" class="btn warning">Pista (+10s)</button>
             <button id="new-game-btn" class="btn secondary">Nuevo Juego</button>
         </div>
+        <a href="../../index.html" class="btn-back">
+            <img src="../../assets/meta.png" alt="Flecha hacia atrás">
+            Ir al Menú</a>
         <p id="message"></p>
     </main>
 
