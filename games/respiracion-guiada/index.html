@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Respiración Guiada Interactiva</title>
+
+    <style>
+        :root {
+            --bg: #EEF6FF;
+            --card: #FFFFFF;
+            --primary: #4A90E2;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --purple: #8B5CF6;
+            --text: #334155;
+            --shadow: 0 12px 30px rgba(0, 0, 0, .10);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: linear-gradient(180deg, #EAF4FF, #F8FBFF);
+            min-height: 100vh;
+            padding: 16px;
+            color: var(--text);
+        }
+
+        .game {
+            width: 100%;
+            max-width: 1400px;
+            margin: auto;
+        }
+
+        /* =========================
+   HEADER
+========================= */
+
+        .header {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            color: var(--primary);
+            font-size: clamp(28px, 5vw, 42px);
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            line-height: 1.7;
+            font-size: clamp(15px, 2vw, 18px);
+        }
+
+        .info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .badge {
+            background: #EEF5FF;
+            padding: 12px 16px;
+            border-radius: 15px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .controls {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            padding: 14px 18px;
+            border-radius: 15px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: .2s;
+            flex: 1;
+            min-width: 180px;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+        }
+
+        .primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .warning {
+            background: var(--warning);
+            color: white;
+        }
+
+        .success {
+            background: var(--success);
+            color: white;
+        }
+
+        /* =========================
+   LAYOUT
+========================= */
+
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 360px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        /* =========================
+   SCENE
+========================= */
+
+        .scene {
+            position: relative;
+            width: 100%;
+            min-height: 500px;
+            height: 72vh;
+            max-height: 850px;
+
+            background: linear-gradient(180deg, #BEE3FF, #EAF8FF);
+
+            border-radius: 28px;
+            overflow: hidden;
+
+            box-shadow: var(--shadow);
+        }
+
+        /* =========================
+   CLOUDS
+========================= */
+
+        .cloud {
+            position: absolute;
+            background: white;
+            border-radius: 50px;
+            opacity: .9;
+        }
+
+        .cloud::before,
+        .cloud::after {
+            content: "";
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .cloud1 {
+            width: 110px;
+            height: 40px;
+            top: 8%;
+            left: -100px;
+            animation: float 18s linear infinite;
+        }
+
+        .cloud1::before {
+            width: 45px;
+            height: 45px;
+            top: -18px;
+            left: 15px;
+        }
+
+        .cloud1::after {
+            width: 55px;
+            height: 55px;
+            top: -22px;
+            right: 15px;
+        }
+
+        .cloud2 {
+            width: 140px;
+            height: 45px;
+            top: 20%;
+            left: -150px;
+            animation: float 25s linear infinite;
+        }
+
+        .cloud2::before {
+            width: 55px;
+            height: 55px;
+            top: -20px;
+            left: 20px;
+        }
+
+        .cloud2::after {
+            width: 65px;
+            height: 65px;
+            top: -28px;
+            right: 15px;
+        }
+
+        /* =========================
+   BUBBLE
+========================= */
+
+        .bubble {
+            position: absolute;
+
+            width: min(38vw, 240px);
+            height: min(38vw, 240px);
+
+            min-width: 140px;
+            min-height: 140px;
+
+            border-radius: 50%;
+
+            left: 50%;
+            top: 45%;
+
+            transform: translate(-50%, -50%) scale(1);
+
+            background: radial-gradient(circle at 30% 30%,
+                    rgba(255, 255, 255, .9),
+                    rgba(255, 255, 255, .4),
+                    rgba(74, 144, 226, .4));
+
+            border: 6px solid rgba(255, 255, 255, .5);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            transition: 3s ease-in-out;
+
+            box-shadow:
+                0 0 50px rgba(74, 144, 226, .4),
+                inset 0 0 30px rgba(255, 255, 255, .6);
+
+            padding: 15px;
+        }
+
+        .bubble-text {
+            text-align: center;
+            font-size: clamp(22px, 4vw, 36px);
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 3px 10px rgba(0, 0, 0, .2);
+        }
+
+        /* =========================
+   DRAGON
+========================= */
+
+        .dragon {
+            position: absolute;
+            left: 50%;
+            bottom: 40px;
+
+            transform: translateX(-50%);
+
+            font-size: clamp(70px, 12vw, 140px);
+
+            z-index: 2;
+        }
+
+        .fire {
+            position: absolute;
+
+            left: 50%;
+            bottom: 180px;
+
+            transform: translateX(-50%);
+
+            font-size: clamp(40px, 7vw, 80px);
+
+            opacity: 0;
+            transition: .5s;
+        }
+
+        .fire.active {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.4);
+        }
+
+        /* =========================
+   BALLOON
+========================= */
+
+        .balloon {
+            position: absolute;
+
+            right: 8%;
+            bottom: 80px;
+
+            width: min(18vw, 110px);
+            height: min(24vw, 140px);
+
+            min-width: 70px;
+            min-height: 90px;
+
+            background: linear-gradient(180deg,
+                    #FF7B7B,
+                    #FF4D4D);
+
+            border-radius: 50%;
+
+            transition: 3s ease-in-out;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .15);
+        }
+
+        .balloon::after {
+            content: "";
+
+            position: absolute;
+
+            width: 3px;
+            height: 80px;
+
+            background: #555;
+
+            left: 50%;
+            top: 100%;
+        }
+
+        /* =========================
+   PANEL
+========================= */
+
+        .panel {
+            background: var(--card);
+            border-radius: 28px;
+            padding: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .panel h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: clamp(22px, 4vw, 32px);
+        }
+
+        .status {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .phase {
+            font-size: clamp(24px, 4vw, 36px);
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .counter {
+            font-size: clamp(55px, 10vw, 100px);
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .progress {
+            width: 100%;
+            height: 18px;
+            background: #E5EEF8;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-top: 25px;
+        }
+
+        .bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg,
+                    #4A90E2,
+                    #8B5CF6);
+
+            transition: 1s linear;
+        }
+
+        .modes {
+            display: grid;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .mode {
+            background: #F3F7FC;
+            padding: 16px;
+            border-radius: 18px;
+            border: 3px solid transparent;
+            transition: .2s;
+            font-weight: bold;
+            font-size: 15px;
+        }
+
+        .mode.active {
+            border-color: var(--primary);
+            background: #EAF4FF;
+        }
+
+        .message {
+            margin-top: 25px;
+
+            background: #F7FAFF;
+
+            border-left: 6px solid var(--purple);
+
+            padding: 18px;
+
+            border-radius: 15px;
+
+            line-height: 1.7;
+
+            font-size: 15px;
+        }
+
+        /* =========================
+   STARS
+========================= */
+
+        .stars {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 2s infinite alternate;
+        }
+
+        /* =========================
+   ANIMATIONS
+========================= */
+
+        @keyframes float {
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(calc(100vw + 300px));
+            }
+        }
+
+        @keyframes twinkle {
+            from {
+                opacity: .3;
+                transform: scale(.8);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        /* =========================
+   TABLET
+========================= */
+
+        @media(max-width:1024px) {
+
+            .main {
+                grid-template-columns: 1fr;
+            }
+
+            .scene {
+                height: 60vh;
+                min-height: 480px;
+            }
+
+            .panel {
+                width: 100%;
+            }
+        }
+
+        /* =========================
+   MOBILE
+========================= */
+
+        @media(max-width:768px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .header,
+            .panel {
+                padding: 18px;
+                border-radius: 22px;
+            }
+
+            .scene {
+                height: 500px;
+                min-height: 500px;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                min-width: 100%;
+            }
+
+            .bubble {
+                top: 42%;
+            }
+
+            .dragon {
+                bottom: 25px;
+            }
+
+            .fire {
+                bottom: 140px;
+            }
+
+            .balloon {
+                right: 5%;
+                bottom: 60px;
+            }
+        }
+
+        /* =========================
+   SMALL MOBILE
+========================= */
+
+        @media(max-width:480px) {
+
+            .scene {
+                height: 450px;
+                min-height: 450px;
+            }
+
+            .bubble {
+                width: 150px;
+                height: 150px;
+            }
+
+            .dragon {
+                font-size: 80px;
+            }
+
+            .fire {
+                font-size: 45px;
+                bottom: 120px;
+            }
+
+            .badge {
+                width: 100%;
+                text-align: center;
+            }
+
+            .mode {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="header">
+
+            <h1>🫧 Respiración Guiada Interactiva</h1>
+
+            <p>
+                Juego relajante diseñado para niños con TDAH.
+                Ayuda a reducir ansiedad, bajar hiperactividad
+                y mejorar la autorregulación emocional.
+            </p>
+
+            <div class="info">
+
+                <div class="badge">
+                    🌬 Respiración consciente
+                </div>
+
+                <div class="badge">
+                    🧠 Autorregulación
+                </div>
+
+                <div class="badge">
+                    💙 Calma emocional
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="startBreathing()">
+                    ▶️ Iniciar
+                </button>
+
+                <button class="warning" onclick="stopBreathing()">
+                    ⏹ Detener
+                </button>
+
+                <button class="success" onclick="nextMode()">
+                    🎮 Cambiar Escenario
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <div class="scene">
+
+                <div class="sky">
+
+                    <div class="cloud cloud1"></div>
+                    <div class="cloud cloud2"></div>
+
+                </div>
+
+                <div class="stars" id="stars"></div>
+
+                <div class="bubble" id="bubble">
+
+                    <div class="bubble-text" id="bubbleText">
+                        Respira
+                    </div>
+
+                </div>
+
+                <div class="dragon" id="dragon">
+                    🐲
+                </div>
+
+                <div class="fire" id="fire">
+                    🔥
+                </div>
+
+                <div class="balloon" id="balloon"></div>
+
+            </div>
+
+            <div class="panel">
+
+                <h2>🧘 Meditación Interactiva</h2>
+
+                <div class="status">
+
+                    <div class="phase" id="phase">
+                        Preparado
+                    </div>
+
+                    <div class="counter" id="counter">
+                        0
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="bar" id="bar"></div>
+
+                </div>
+
+                <div class="modes">
+
+                    <div class="mode active">
+                        🫧 Burbuja Calmante
+                    </div>
+
+                    <div class="mode">
+                        🐲 Dragón Respirador
+                    </div>
+
+                    <div class="mode">
+                        🎈 Globo Flotante
+                    </div>
+
+                </div>
+
+                <div class="message" id="message">
+
+                    💡 Inhala lentamente por la nariz y exhala suavemente.
+                    Tu cuerpo y mente se sentirán más tranquilos.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script>
+
+        const bubble = document.getElementById("bubble");
+        const bubbleText = document.getElementById("bubbleText");
+
+        const phase = document.getElementById("phase");
+        const counter = document.getElementById("counter");
+        const bar = document.getElementById("bar");
+
+        const fire = document.getElementById("fire");
+        const balloon = document.getElementById("balloon");
+
+        const stars = document.getElementById("stars");
+
+        let breathing = false;
+        let currentMode = 0;
+        let interval;
+
+        const modes = [
+            "Burbuja Calmante",
+            "Dragón Respirador",
+            "Globo Flotante"
+        ];
+
+        function createStars() {
+
+            for (let i = 0; i < 40; i++) {
+
+                const star = document.createElement("div");
+
+                star.className = "star";
+
+                star.style.left =
+                    Math.random() * 100 + "%";
+
+                star.style.top =
+                    Math.random() * 100 + "%";
+
+                star.style.animationDelay =
+                    Math.random() * 2 + "s";
+
+                stars.appendChild(star);
+            }
+        }
+
+        createStars();
+
+        async function startBreathing() {
+
+            if (breathing) return;
+
+            breathing = true;
+
+            while (breathing) {
+
+                await inhale();
+
+                if (!breathing) break;
+
+                await hold();
+
+                if (!breathing) break;
+
+                await exhale();
+            }
+        }
+
+        function stopBreathing() {
+
+            breathing = false;
+
+            phase.innerHTML = "Pausado";
+
+            counter.innerHTML = "0";
+
+            bar.style.width = "0%";
+        }
+ 
+        async function inhale() {
+
+            phase.innerHTML = "🌬 Inhala";
+
+            bubbleText.innerHTML = "Inhala";
+
+            animateProgress(0, 100, 4000);
+
+            for (let i = 4; i >= 1; i--) {
+
+                counter.innerHTML = i;
+
+                // BURBUJA
+                if (currentMode === 0) {
+
+                    bubble.style.transform =
+                        `translate(-50%,-50%) scale(${1 + (5 - i) * 0.15})`;
+                }
+
+                // GLOBO
+                if (currentMode === 2) {
+
+                    balloon.style.bottom =
+                        `${80 + (5 - i) * 40}px`;
+                }
+
+                await wait(1000);
+            }
+        }
+
+        async function hold() {
+
+            phase.innerHTML = "🧘 Mantén";
+
+            bubbleText.innerHTML = "Mantén";
+
+            for (let i = 2; i >= 1; i--) {
+
+                counter.innerHTML = i;
+
+                await wait(1000);
+            }
+        }
+
+        async function exhale() {
+
+            phase.innerHTML = "😮‍💨 Exhala";
+
+            bubbleText.innerHTML = "Exhala";
+
+            animateProgress(100, 0, 5000);
+
+            // DRAGÓN
+            if (currentMode === 1) {
+
+                fire.classList.add("active");
+            }
+
+            for (let i = 5; i >= 1; i--) {
+
+                counter.innerHTML = i;
+
+                // BURBUJA
+                if (currentMode === 0) {
+
+                    bubble.style.transform =
+                        `translate(-50%,-50%) scale(${1 + i * 0.03})`;
+                }
+
+                // GLOBO
+                if (currentMode === 2) {
+
+                    balloon.style.bottom =
+                        `${80 + i * 10}px`;
+                }
+
+                await wait(1000);
+            }
+
+            fire.classList.remove("active");
+        }
+
+        function animateProgress(from, to, duration) {
+
+            const start = Date.now();
+
+            const animate = () => {
+
+                const now = Date.now();
+
+                const progress =
+                    Math.min((now - start) / duration, 1);
+
+                const value =
+                    from + (to - from) * progress;
+
+                bar.style.width = value + "%";
+
+                if (progress < 1) {
+                    requestAnimationFrame(animate);
+                }
+            };
+
+            animate();
+        }
+
+        function wait(ms) {
+
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function nextMode() {
+
+            currentMode++;
+
+            if (currentMode >= modes.length) {
+                currentMode = 0;
+            }
+
+            applyMode();
+        }
+
+        function applyMode() {
+
+            const allModes =
+                document.querySelectorAll(".mode");
+
+            allModes.forEach(m =>
+                m.classList.remove("active")
+            );
+
+            allModes[currentMode]
+                .classList.add("active");
+
+            // ELEMENTOS
+            const dragon =
+                document.getElementById("dragon");
+
+            // RESET
+            bubble.style.display = "none";
+            dragon.style.display = "none";
+            balloon.style.display = "none";
+            fire.classList.remove("active");
+
+            // =========================
+            // BURBUJA
+            // =========================
+
+            if (currentMode === 0) {
+
+                bubble.style.display = "flex";
+
+                document.getElementById("message").innerHTML = `
+            🫧 Observa cómo la burbuja crece
+            al inhalar y se hace pequeña al exhalar.
+        `;
+            }
+
+            // =========================
+            // DRAGÓN
+            // =========================
+
+            if (currentMode === 1) {
+
+                dragon.style.display = "block";
+
+                document.getElementById("message").innerHTML = `
+            🐲 El dragón expulsa fuego lentamente
+            cuando exhalas.
+        `;
+            }
+
+            // =========================
+            // GLOBO
+            // =========================
+
+            if (currentMode === 2) {
+
+                balloon.style.display = "block";
+
+                document.getElementById("message").innerHTML = `
+            🎈 El globo sube al inhalar
+            y baja al exhalar.
+        `;
+            }
+        }
+
+        applyMode();
+    </script>
+
+</body>
+
+</html>
