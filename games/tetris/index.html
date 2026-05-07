@@ -12,36 +12,40 @@
 
 <body>
 
-    <div class="game-wrapper">
-    <div class="side-panel">
-        <div class="box">
-            <h2>PUNTOS</h2>
-            <div id="score" class="val">0</div>
+    <d<div class="game-wrapper">
+        <div class="side-panel">
+            <div class="box">
+                <h2>PUNTOS</h2>
+                <div id="score" class="val">0</div>
+            </div>
+            <div class="box">
+                <h2>NIVEL</h2>
+                <div id="level" class="val">1</div>
+            </div>
+            <div class="box">
+                <h2>SIGUIENTE</h2>
+                <canvas id="next" width="120" height="120"
+                    style="width: 70px; height: 70px; margin: 0 auto; display: block;"></canvas>
+            </div>
+            <button id="btn-pause" class="m-btn" style="font-size: 1rem; padding: 10px;">⏸️ Pausa (P)</button>
+            <div class="box controls-hint" style="font-size: 0.7rem;">
+                PC: Flechas para mover <br> Q/W para rotar
+            </div>
         </div>
-        <div class="box">
-            <h2>NIVEL</h2>
-            <div id="level" class="val">1</div>
-        </div>
-        <div class="box">
-            <h2>SIGUIENTE</h2>
-            <canvas id="next" width="120" height="120"></canvas>
-        </div>
-        <button id="btn-pause" class="m-btn" style="font-size: 0.9rem; height: 40px;">⏸️ Pausa</button>
-    </div>
 
-    <div class="main-game-area">
-        <canvas id="tetris" width="360" height="600"></canvas>
-        
-        <div class="mobile-controls">
-            <button class="m-btn" id="btn-left">⬅️</button>
-            <button class="m-btn" id="btn-rotate">🔃</button>
-            <button class="m-btn" id="btn-right">➡️</button>
-            <button class="m-btn" id="btn-down" style="grid-column: span 3;">⬇️ BAJAR RÁPIDO</button>
-        </div>
-    </div>
-</div>
+        <div class="main-game-area">
+            <canvas id="tetris" width="360" height="600"></canvas>
 
-    <script src="tetris.js"></script>
+            <div class="mobile-controls">
+                <button class="m-btn" id="btn-left">⬅️</button>
+                <button class="m-btn" id="btn-rotate">🔃</button>
+                <button class="m-btn" id="btn-right">➡️</button>
+                <button class="m-btn" id="btn-down" style="grid-column: span 3;">⬇️ Bajar Rápido</button>
+            </div>
+        </div>
+        </div>
+
+        <script src="tetris.js"></script>
 </body>
 
 </html>
