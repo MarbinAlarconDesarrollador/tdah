@@ -69,6 +69,9 @@
   --glow-blue: 0 0 10px #3B82F8;
   --glow-green: 0 0 10px #10B981;
   --glow-pink: 0 0 10px #EC4899;
+
+  --back: #1400c6;
+  --back-hover: #0a0080;
 }
 
 * { box-sizing: border-box; font-family: 'Segoe UI', system-ui, sans-serif; }
@@ -96,12 +99,16 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 .btn-back {
     display: inline-block;
     padding: 10px 20px;
-    background-color: var(--text-color);
+    background-color: var(--back);
     color: white;
     text-decoration: none;
     border-radius: 20px;
     margin: 20px;
     font-weight: bold;
+}
+
+.btn-back:hover {
+    background-color: var(--back-hover);
 }
 
 .btn-action {
