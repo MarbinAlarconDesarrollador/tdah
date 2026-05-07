@@ -53,7 +53,7 @@ header {
     margin-bottom: 12px;
 }
 
-.btn-back {
+.btn-back-charadas {
     color: var(--text-dim);
     text-decoration: none;
     font-size: .85rem;
@@ -64,7 +64,14 @@ header {
     transition: color .2s, border-color .2s;
     white-space: nowrap;
 }
-.btn-back:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+.btn-back-charadas:hover { color: var(--text); border-color: rgba(255,255,255,.3); }
+
+.btn-back-charadas img {
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+    margin-right: 4px;
+}
 
 h1 {
     font-family: 'Righteous', cursive;
