@@ -11,8 +11,7 @@
 </head>
 
 <body>
-
-    <d<div class="game-wrapper">
+    <div class="game-wrapper">
         <div class="side-panel">
             <div class="box">
                 <h2>PUNTOS</h2>
@@ -31,6 +30,11 @@
             <div class="box controls-hint" style="font-size: 0.7rem;">
                 PC: Flechas para mover <br> Q/W para rotar
             </div>
+            <div class="box">
+                <a href="../../index.html" class="btn-back">
+                    <img src="../../assets/meta.png" alt="Flecha hacia atrás">
+                    Ir al Menú</a>
+            </div>
         </div>
 
         <div class="main-game-area">
@@ -38,22 +42,25 @@
 
             <div class="mobile-controls">
                 <button class="m-btn" id="btn-left">
-                    <img src="../../assets/flecha-izquierda.png" alt="Flecha a la izquierda" style="width: 60px; height: 60px; color: var(--neon-blue);">
+                    <img src="../../assets/flecha-izquierda.png" alt="Flecha a la izquierda"
+                        style="width: 60px; height: 60px; color: var(--neon-blue);">
                 </button>
                 <button class="m-btn" id="btn-rotate">
                     <img src="../../assets/rotar.png" alt="Flecha de rotación" style="width: 60px; height: 60px; ">
                 </button>
                 <button class="m-btn" id="btn-right">
-                    <img src="../../assets/flecha-derecha.png" alt="Flecha a la derecha" style="width: 60px; height: 60px; color: var(--neon-blue);">
+                    <img src="../../assets/flecha-derecha.png" alt="Flecha a la derecha"
+                        style="width: 60px; height: 60px; color: var(--neon-blue);">
                 </button>
                 <button class="m-btn" id="btn-down" style="grid-column: span 3;">
-                    <img src="../../assets/flecha-hacia-abajo.png" alt="Flecha hacia abajo" style="width: 60px; height: 60px; color: var(--neon-blue);">
+                    <img src="../../assets/flecha-hacia-abajo.png" alt="Flecha hacia abajo"
+                        style="width: 60px; height: 60px; color: var(--neon-blue);">
                 </button>
             </div>
         </div>
-        </div>
+    </div>
 
-        <script src="tetris.js"></script>
+    <script src="tetris.js"></script>
 </body>
 
 </html>
