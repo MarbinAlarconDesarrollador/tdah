@@ -180,3 +180,232 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 
 .game-icon { font-size: 3rem; margin-bottom: 10px; }
 .game-title { font-weight: bold; font-size: 1.1rem; }
+
+
+/* =========================================
+   🎮 ANIMACIONES PREMIUM DASHBOARD
+========================================= */
+
+.game-card{
+    position: relative;
+    overflow: hidden;
+
+    transform-style: preserve-3d;
+    will-change: transform;
+
+    animation:
+        cardEntrance .7s ease forwards,
+        floatingCard 4s ease-in-out infinite;
+
+    opacity: 0;
+
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        filter .25s ease;
+}
+
+/* Delay automático por tarjeta */
+
+.game-card:nth-child(1){ animation-delay: .05s, 0s; }
+.game-card:nth-child(2){ animation-delay: .1s, 0s; }
+.game-card:nth-child(3){ animation-delay: .15s, 0s; }
+.game-card:nth-child(4){ animation-delay: .2s, 0s; }
+.game-card:nth-child(5){ animation-delay: .25s, 0s; }
+.game-card:nth-child(6){ animation-delay: .3s, 0s; }
+.game-card:nth-child(7){ animation-delay: .35s, 0s; }
+.game-card:nth-child(8){ animation-delay: .4s, 0s; }
+.game-card:nth-child(9){ animation-delay: .45s, 0s; }
+.game-card:nth-child(10){ animation-delay: .5s, 0s; }
+.game-card:nth-child(11){ animation-delay: .55s, 0s; }
+.game-card:nth-child(12){ animation-delay: .6s, 0s; }
+.game-card:nth-child(13){ animation-delay: .65s, 0s; }
+.game-card:nth-child(14){ animation-delay: .7s, 0s; }
+.game-card:nth-child(15){ animation-delay: .75s, 0s; }
+.game-card:nth-child(16){ animation-delay: .8s, 0s; }
+
+/* Entrada */
+
+@keyframes cardEntrance{
+
+    from{
+        opacity:0;
+        transform:
+            translateY(40px)
+            scale(.92);
+    }
+
+    to{
+        opacity:1;
+        transform:
+            translateY(0)
+            scale(1);
+    }
+}
+
+/* Movimiento flotante */
+
+@keyframes floatingCard{
+
+    0%{
+        transform:translateY(0px);
+    }
+
+    50%{
+        transform:translateY(-6px);
+    }
+
+    100%{
+        transform:translateY(0px);
+    }
+}
+
+/* Hover premium PC */
+
+.game-card:hover{
+
+    transform:
+        translateY(-10px)
+        rotateX(4deg)
+        rotateY(-4deg)
+        scale(1.03);
+
+    box-shadow:
+        0 20px 35px rgba(0,0,0,.15),
+        0 0 25px rgba(74,144,226,.15);
+
+    filter:brightness(1.03);
+}
+
+/* Glow animado */
+
+.game-card::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-120%;
+
+    background:
+        linear-gradient(
+            120deg,
+            transparent 20%,
+            rgba(255,255,255,.35) 45%,
+            transparent 70%
+        );
+
+    transform:rotate(25deg);
+
+    transition:.8s;
+}
+
+.game-card:hover::before{
+
+    inset:120%;
+}
+
+/* Iconos con movimiento */
+
+.game-icon{
+
+    transition:
+        transform .3s ease,
+        filter .3s ease;
+}
+
+.game-card:hover .game-icon{
+
+    transform:
+        translateY(-4px)
+        scale(1.08)
+        rotate(-4deg);
+
+    filter:
+        drop-shadow(0 10px 12px rgba(0,0,0,.15));
+}
+
+/* Título animado */
+
+.game-title{
+
+    transition:
+        transform .25s ease,
+        color .25s ease;
+}
+
+.game-card:hover .game-title{
+
+    transform:scale(1.05);
+    color:var(--primary);
+}
+
+/* Efecto táctil móvil */
+
+.game-card:active{
+
+    transform:
+        scale(.96)
+        translateY(2px);
+}
+
+/* Responsive móvil */
+
+@media(max-width:768px){
+
+    .game-card{
+
+        animation:
+            cardEntranceMobile .6s ease forwards,
+            floatingCardMobile 3s ease-in-out infinite;
+
+        opacity:0;
+    }
+
+    @keyframes cardEntranceMobile{
+
+        from{
+            opacity:0;
+            transform:
+                translateY(25px)
+                scale(.95);
+        }
+
+        to{
+            opacity:1;
+            transform:
+                translateY(0)
+                scale(1);
+        }
+    }
+
+    @keyframes floatingCardMobile{
+
+        0%{
+            transform:translateY(0px);
+        }
+
+        50%{
+            transform:translateY(-3px);
+        }
+
+        100%{
+            transform:translateY(0px);
+        }
+    }
+
+    .game-card:hover{
+
+        transform:none;
+    }
+}
+
+/* Reduce motion accesibilidad */
+
+@media(prefers-reduced-motion: reduce){
+
+    .game-card{
+        animation:none;
+        transition:none;
+    }
+}
