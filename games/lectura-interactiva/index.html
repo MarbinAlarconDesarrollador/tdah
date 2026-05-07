@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Lectura Interactiva - TDAH Kids</title>
+    <link rel="stylesheet" href="../../global.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="header">
+
+            <h1>📚 Lectura Interactiva</h1>
+
+            <p>
+                Mini cuentos interactivos para fortalecer:
+                comprensión lectora, atención y memoria
+                en niños con TDAH.
+            </p>
+
+            <div class="info">
+
+                <div class="badge">
+                    📖 Comprensión lectora
+                </div>
+
+                <div class="badge">
+                    🎯 Atención
+                </div>
+
+                <div class="badge">
+                    🧠 Memoria
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="nextStory()">
+                    ▶️ Nuevo Cuento
+                </button>
+
+                <button class="warning" onclick="resetGame()">
+                    🔄 Reiniciar
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <div class="story-panel">
+
+                <div class="story-scene">
+
+                    <div class="story-emoji" id="storyEmoji">
+                        🦊
+                    </div>
+
+                    <div class="story-title" id="storyTitle">
+                        El Zorro Curioso
+                    </div>
+
+                    <div class="story-text" id="storyText"></div>
+
+                </div>
+
+                <button class="primary sound-btn" onclick="playNarration()">
+                    🔊 Escuchar Narración
+                </button>
+
+                <div class="question-box">
+
+                    <div class="question-title" id="question">
+                        ¿Qué encontró el zorro?
+                    </div>
+
+                    <div class="options" id="options"></div>
+
+                </div>
+
+                <div class="feedback" id="feedback"></div>
+
+            </div>
+
+            <div class="side-panel">
+
+                <h2>🏆 Progreso</h2>
+
+                <div class="score">
+
+                    <div>Puntaje</div>
+
+                    <div class="big-score" id="score">
+                        0
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="bar" id="bar"></div>
+
+                </div>
+
+                <div class="tip" id="tip">
+
+                    💡 Lee con calma y presta atención
+                    a los detalles importantes del cuento.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

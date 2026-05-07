@@ -176,6 +176,7 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 .game-card.rompe-cabezas { border-color: var(--teal); }
 .game-card.simon-dice { border-color: var(--orange); }
 .game-card.emociones { border-color: var(--yellow); }
+.game-card.lectura-interactiva { border-color: var(--purple); }
 
 .game-icon { font-size: 3rem; margin-bottom: 10px; }
 .game-title { font-weight: bold; font-size: 1.1rem; }
