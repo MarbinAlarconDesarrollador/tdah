@@ -12,6 +12,11 @@
 
     --shadow:
         0 15px 40px rgba(0, 0, 0, .10);
+
+    --back: #E5E7EB;
+    --back-color: #374151;
+    --back-hover: #D1D5DB;
+
 }
 
 * {
@@ -102,6 +107,38 @@ body {
 
     font-weight: bold;
 }
+
+
+.btn-back-modo-calma {
+    border: none;
+    cursor: pointer;
+    padding: 14px 20px;
+    border-radius: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    background: var(--back);
+    color: var(--back-color);
+    transition: .2s;
+}
+
+.btn-back-modo-calma:hover {
+    background: var(--back-hover);
+}
+
+.btn-back-modo-calma a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.btn-back-modo-calma img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
+
 
 /* =========================
    LAYOUT

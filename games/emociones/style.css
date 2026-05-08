@@ -10,6 +10,10 @@
     --purple: #8B5CF6;
 
     --shadow: 0 12px 30px rgba(0, 0, 0, .10);
+
+    --back: #E5E7EB;
+    --back-color: #374151;
+    --back-hover: #D1D5DB;
 }
 
 * {
@@ -92,6 +96,29 @@ button:hover {
 .warning {
     background: var(--warning);
     color: white;
+}
+
+.btn-back-emociones {
+    background:var(--back);
+    color:var(--back-color);
+}
+
+.btn-back-emociones:hover{
+    background:var(--back-hover);
+}
+
+.btn-back-emociones img{
+    width:20px;
+    height:20px;
+    filter:invert(1);
+}   
+
+.btn-back-emociones a{
+    text-decoration:none;
+    color:inherit;
+    display:flex;
+    align-items:center;
+    gap:8px;
 }
 
 .main {

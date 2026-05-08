@@ -16,6 +16,10 @@
 
     --shadow:
         0 12px 30px rgba(0, 0, 0, .10);
+
+    --back: #E5E7EB;
+    --back-color: #374151;
+    --back-hover: #D1D5DB;
 }
 
 * {
@@ -150,6 +154,30 @@ button:hover {
 
     color: white;
 }
+
+.btn-back-laberintos {
+    background:var(--back);
+    color:var(--back-color);
+}
+
+.btn-back-laberintos:hover{
+    background:var(--back-hover);
+}
+
+.btn-back-laberintos img{
+    width:20px;
+    height:20px;
+    filter:invert(1);
+}   
+
+.btn-back-laberintos a{
+    text-decoration:none;
+    color:inherit;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
 
 /* =========================
    MAIN

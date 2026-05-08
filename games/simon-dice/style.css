@@ -9,6 +9,10 @@
     --blue: #3B82F6;
 
     --shadow: 0 15px 30px rgba(0, 0, 0, .12);
+
+    --back: #E5E7EB;
+    --back-color: #374151;
+    --back-hover: #D1D5DB;
 }
 
 * {
@@ -94,6 +98,29 @@ button:hover {
 .warning {
     background: #F59E0B;
     color: white;
+}
+
+.btn-back-simon {
+    background: var(--back);
+    color: var(--back-color);
+}
+
+.btn-back-simon:hover {
+    background: var(--back-hover);
+}
+
+.btn-back-simon img {
+    width: 20px;
+    height: 20px;
+    filter: invert(1);
+}
+
+.btn-back-simon a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .board-container {
