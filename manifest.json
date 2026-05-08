@@ -1,7 +1,7 @@
 {
   "name": "FocusPlay - Juegos TDAH",
   "short_name": "FocusPlay",
-  "start_url": "/index.html",
+  "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#F0F4F8",
   "theme_color": "#4A90E2",
