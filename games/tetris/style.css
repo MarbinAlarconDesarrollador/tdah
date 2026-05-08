@@ -1,136 +1,314 @@
 :root {
-    --neon-blue: #00f2ff;
-    --bg-dark: #05050a;
-    /* Reducimos un poco la altura de los botones para dar aire al canvas */
-    --controls-height: 160px; 
+    /* PALETA TDAH-FRIENDLY: Saturada pero suave, alto contraste */
+    --bg-dark: #1A1A2E;
+    /* Fondo base: Azul marino muy oscuro (menos agresivo que el negro) */
+    --bg-panel: #242442;
+    /* Fondo paneles: Un tono más claro para dar profundidad */
+
+    --color-ui-main: #FFD369;
+    /* Amarillo suave: Para títulos y bordes principales (Llama la atención) */
+    --color-ui-accent: #A2FF86;
+    /* Verde pastel brillante: Para valores y éxitos */
+    --color-text-base: #EEEEEE;
+    /* Blanco roto: Texto principal (menos brillo que blanco puro) */
+    --color-text-muted: #B0B0B0;
+    /* Gris claro: Para textos secundarios */
+
+    --btn-bg: #4F4557;
+    /* Gris pardo: Fondo botones neutro */
+    --btn-active: #FF9F9F;
+    /* Rosa suave: Feedback visual claro al presionar */
+
+    --shadow-game: 0 8px 30px rgba(0, 0, 0, 0.5);
+    /* Sombras para dar volumen y enfoque */
+
+    /* Variables de estructura heredadas del responsive "melo" */
+    --controls-height: 160px;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
-    background: var(--bg-dark);
-    color: var(--neon-blue);
-    font-family: 'Segoe UI', Arial, sans-serif;
+    background-color: var(--bg-dark);
+    color: var(--color-text-base);
+    font-family: 'Montserrat', 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* Tipografía más amigable */
     margin: 0;
     padding: 0;
-    height: 100dvh; 
+    height: 100dvh;
     display: flex;
-    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
     touch-action: none;
 }
 
 .game-wrapper {
     display: flex;
-    flex-direction: row; /* En PC lado a lado */
-    justify-content: center;
-    align-items: center;
-    gap: 15px;
+    flex-direction: row;
+    /* Horizontal en PC */
+    gap: 25px;
+    padding: 20px;
     height: 100%;
     width: 100%;
-    padding: 10px;
+    max-width: 1100px;
+    align-items: center;
 }
 
-/* Contenedor principal de la columna de juego */
+/* --- ÁREA CENTRAL: CANVASTETRIS --- */
 .main-game-area {
     display: flex;
     flex-direction: column;
+    flex: 2;
     height: 100%;
-    flex: 1;
-    max-width: 400px;
+    justify-content: center;
+    align-items: center;
+    position: relative;
 }
 
 canvas#tetris {
-    background: #000;
-    border: 3px solid var(--neon-blue);
-    border-radius: 8px;
-    /* Ajuste dinámico estricto */
-    max-height: calc(100dvh - var(--controls-height) - 100px); 
+    background-color: #000000;
+    /* El área de juego sí debe ser negra pura para máximo contraste de piezas */
+    border: 6px solid var(--color-ui-main);
+    /* Borde grueso y llamativo para focalizar */
+    border-radius: 15px;
+    box-shadow: var(--shadow-game);
+
+    /* RESPONSIVE DINÁMICO (Heredado y protegido) */
+    max-height: calc(100dvh - var(--controls-height) - 100px);
     width: auto;
     aspect-ratio: 12 / 20;
-    margin: auto auto 10px auto; /* Centra el canvas arriba de los botones */
-    display: block;
-    box-shadow: 0 0 20px rgba(0, 242, 255, 0.2);
+
+    /* Transición suave para cuando se encoge en responsive */
+    transition: max-height 0.3s ease;
 }
 
+/* Mensaje de Pausa (Si existe en HTML) */
+.pause-overlay {
+    position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: var(--color-ui-main);
+    font-size: 3rem;
+    font-weight: bold;
+    border-radius: 15px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    /* Se controla por JS */
+}
+
+/* --- PANELES LATERALES (PC) --- */
+.side-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    flex: 1;
+}
+
+/* Cajas de Información */
+.box {
+    background-color: var(--bg-panel);
+    border: 2px solid rgba(255, 211, 105, 0.2);
+    /* Borde sutil */
+    border-radius: 15px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+
+/* Efecto hover sutil para PC */
+.box:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-ui-main);
+}
+
+.box h2 {
+    font-size: 1rem;
+    margin: 0 0 10px 0;
+    color: var(--color-ui-main);
+    /* Color principal para etiquetas */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.val {
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--color-ui-accent);
+    /* Color de éxito para los números */
+    font-family: 'Courier New', Courier, monospace;
+    /* Fuente 'digital' para números */
+}
+
+/* Canvas Siguiente Pieza */
+canvas#next {
+    background: #000;
+    border-radius: 8px;
+    border: 2px solid var(--color-text-muted);
+    margin-top: 10px;
+}
+
+/* Botón Pausa (Compartido móvil/PC) */
+button#btn-pause {
+    background-color: var(--btn-bg);
+    border: 3px solid var(--color-text-base);
+    color: var(--color-text-base);
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+button#btn-pause:hover {
+    background-color: var(--color-text-base);
+    color: var(--bg-dark);
+}
+
+/* --- CONTROLES MÓVILES (Estilo TDAH: Feedback Claro) --- */
 .mobile-controls {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr 1fr;
-    gap: 8px;
+    gap: 12px;
+    /* Más espacio para evitar toques falsos */
     height: var(--controls-height);
     width: 100%;
-    padding-bottom: 5px;
+    max-width: 450px;
+    padding-top: 15px;
 }
 
 .m-btn {
-    background: rgba(0, 242, 255, 0.1);
-    border: 2px solid var(--neon-blue);
-    color: white;
-    border-radius: 12px;
-    font-size: 1.2rem;
+    background-color: var(--bg-panel);
+    border: 3px solid var(--color-ui-main);
+    /* Usamos el amarillo para los bordes */
+    color: var(--color-ui-main);
+    border-radius: 18px;
+    /* Más redondeados, más amigables */
+    font-size: 1.8rem;
+    /* Iconos más grandes */
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    user-select: none;
+    box-shadow: 0 5px 0 var(--color-ui-main);
+    /* Efecto 3D de botón presionado */
+    transition: all 0.1s ease;
+    /* Feedback instantáneo */
+    -webkit-tap-highlight-color: transparent;
+    /* Quita el flash azul de Android */
 }
 
+/* EFECTO PRESIONADO CLARO (Crucial para TDAH) */
 .m-btn:active {
-    background: var(--neon-blue);
-    color: #000;
+    background-color: var(--btn-active);
+    /* Rosa suave */
+    border-color: #fff;
+    color: #fff;
+    transform: translateY(4px);
+    /* Se 'hunde' */
+    box-shadow: 0 1px 0 #fff;
 }
 
-/* Panel lateral adaptado */
-.side-panel {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 130px;
+/* Botón 'Bajar Rápido' especial */
+#btn-down {
+    background-color: var(--color-ui-accent);
+    /* Verde para 'acción positiva' */
+    border-color: #fff;
+    color: var(--bg-dark);
+    font-size: 1rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    box-shadow: 0 5px 0 #fff;
 }
 
-.box {
-    background: #000;
-    border: 1px solid var(--neon-blue);
-    border-radius: 8px;
-    padding: 8px;
+#btn-down:active {
+    background-color: #fff;
+    box-shadow: 0 1px 0 #fff;
+}
+
+.btn-back-tetris {
+    background-color: var(--bg-panel);
+    border: 2px solid rgba(255, 211, 105, 0.2);
+    /* Borde sutil */
+    border-radius: 15px;
+    padding: 18px;
     text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease;
+}
+.btn-back-tetris:hover {
+    transform: translateY(-3px);
+    border-color: var(--color-ui-main);
+}
+.btn-back-tetris a {
+    color: var(--color-ui-main);
+    text-decoration: none;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}   
+.btn-back-tetris a img {
+    width: 20px;
+    height: 20px;
+}   
+.btn-back-tetris :active {
+    transform: translateY(2px);
+    border-color: var(--btn-active);
 }
 
-.box h2 { font-size: 0.7rem; margin: 0; color: #fff; }
-.val { font-size: 1.2rem; color: var(--neon-blue); }
 
-canvas#next {
-    width: 60px;
-    height: 60px;
-    margin: 5px auto;
-    display: block;
-}
-
-/* RESPONSIVE MÓVIL VERTICAL */
-@media (max-width: 700px) {
+/* --- RESPONSIVE MÓVIL (Heredado, solo ajustamos colores) --- */
+@media (max-width: 750px) {
     .game-wrapper {
-        flex-direction: column; /* Panel arriba, juego abajo */
-        gap: 5px;
+        flex-direction: column;
+        /* Vertical en móvil */
+        gap: 8px;
+        padding: 10px;
     }
 
     .side-panel {
         flex-direction: row;
         width: 100%;
         height: auto;
+        gap: 8px;
     }
 
     .side-panel .box {
         flex: 1;
-        padding: 4px;
+        padding: 8px;
     }
 
-    .side-panel .controls-hint, 
-    .side-panel .btn-pause:not(#btn-pause) { 
-        display: none; 
+    .box h2 {
+        font-size: 0.7rem;
+        margin-bottom: 2px;
     }
-    
-    .main-game-area {
-        justify-content: flex-end;
+
+    .val {
+        font-size: 1.4rem;
+    }
+
+    canvas#next {
+        width: 50px;
+        height: 50px;
+        margin-top: 2px;
+    }
+
+    /* Ocultamos el botón pausa lateral en móvil si ya hay controles */
+    #btn-pause {
+        display: none;
+    }
+
+    /* Hint de texto para PC oculto en móvil */
+    .controls-hint {
+        display: none;
     }
 }
