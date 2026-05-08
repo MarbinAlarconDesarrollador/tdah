@@ -1,0 +1,658 @@
+ :root {
+
+     --bg: #F4F8FF;
+     --card: #FFFFFF;
+
+     --primary: #4A90E2;
+     --success: #10B981;
+     --danger: #EF4444;
+     --warning: #F59E0B;
+     --purple: #8B5CF6;
+     --pink: #EC4899;
+
+     --text: #334155;
+
+     --shadow:
+         0 12px 30px rgba(0, 0, 0, .10);
+ }
+
+ * {
+     margin: 0;
+     padding: 0;
+     box-sizing: border-box;
+ }
+
+ body {
+
+     font-family: Arial, Helvetica, sans-serif;
+
+     background:
+         linear-gradient(180deg,
+             #EAF4FF,
+             #F8FBFF);
+
+     min-height: 100vh;
+
+     padding: 20px;
+
+     color: var(--text);
+
+     overflow-x: hidden;
+ }
+
+ .game {
+
+     max-width: 1400px;
+
+     margin: auto;
+ }
+
+ /* =========================
+   HEADER
+========================= */
+
+ .header {
+
+     background: var(--card);
+
+     border-radius: 30px;
+
+     padding: 25px;
+
+     box-shadow: var(--shadow);
+
+     margin-bottom: 20px;
+ }
+
+ .header h1 {
+
+     color: var(--primary);
+
+     font-size:
+         clamp(30px, 5vw, 46px);
+
+     margin-bottom: 12px;
+ }
+
+ .header p {
+
+     line-height: 1.8;
+
+     font-size:
+         clamp(15px, 2vw, 18px);
+ }
+
+ .badges {
+
+     display: flex;
+     flex-wrap: wrap;
+
+     gap: 12px;
+
+     margin-top: 20px;
+ }
+
+ .badge {
+
+     background: #EEF5FF;
+
+     padding: 12px 16px;
+
+     border-radius: 14px;
+
+     font-weight: bold;
+ }
+
+ .controls {
+
+     margin-top: 20px;
+
+     display: flex;
+     flex-wrap: wrap;
+
+     gap: 12px;
+ }
+
+ button {
+
+     border: none;
+
+     cursor: pointer;
+
+     padding: 14px 20px;
+
+     border-radius: 16px;
+
+     font-size: 16px;
+
+     font-weight: bold;
+
+     transition: .2s;
+ }
+
+ button:hover {
+
+     transform: scale(1.03);
+ }
+
+ .primary {
+
+     background: var(--primary);
+
+     color: white;
+ }
+
+ .warning {
+
+     background: var(--warning);
+
+     color: white;
+ }
+
+ /* =========================
+   MAIN
+========================= */
+
+ .main {
+
+     display: grid;
+
+     grid-template-columns:
+         1fr 360px;
+
+     gap: 20px;
+ }
+
+ /* =========================
+   GAME AREA
+========================= */
+
+ .game-panel {
+
+     background: var(--card);
+
+     border-radius: 30px;
+
+     padding: 25px;
+
+     box-shadow: var(--shadow);
+
+     position: relative;
+
+     overflow: hidden;
+ }
+
+ .top-info {
+
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+
+     gap: 15px;
+
+     flex-wrap: wrap;
+
+     margin-bottom: 25px;
+ }
+
+ .level {
+
+     background: #EEF5FF;
+
+     padding: 12px 18px;
+
+     border-radius: 14px;
+
+     font-weight: bold;
+ }
+
+ .command-box {
+
+     background:
+         linear-gradient(135deg,
+             #4A90E2,
+             #8B5CF6);
+
+     color: white;
+
+     border-radius: 25px;
+
+     padding: 30px;
+
+     text-align: center;
+
+     margin-bottom: 25px;
+
+     position: relative;
+
+     overflow: hidden;
+ }
+
+ .command-box::before {
+
+     content: "";
+
+     position: absolute;
+
+     inset: -50%;
+
+     background:
+         linear-gradient(120deg,
+             transparent,
+             rgba(255, 255, 255, .25),
+             transparent);
+
+     animation: shine 4s linear infinite;
+ }
+
+ .command-title {
+
+     font-size: 22px;
+
+     opacity: .9;
+
+     margin-bottom: 12px;
+ }
+
+ .command {
+
+     font-size:
+         clamp(32px, 6vw, 58px);
+
+     font-weight: bold;
+
+     position: relative;
+
+     z-index: 2;
+ }
+
+ /* =========================
+   ACTION ZONE
+========================= */
+
+ .action-zone {
+
+     min-height: 430px;
+
+     background:
+         linear-gradient(180deg,
+             #EFF7FF,
+             #F8FBFF);
+
+     border-radius: 30px;
+
+     padding: 25px;
+
+     position: relative;
+
+     overflow: hidden;
+ }
+
+ /* =========================
+   COLORS
+========================= */
+
+ .color-grid {
+
+     display: grid;
+
+     grid-template-columns:
+         repeat(2, 1fr);
+
+     gap: 18px;
+ }
+
+ .color-btn {
+
+     height: 130px;
+
+     border-radius: 24px;
+
+     cursor: pointer;
+
+     transition: .2s;
+
+     box-shadow:
+         0 8px 20px rgba(0, 0, 0, .12);
+
+     border: 5px solid transparent;
+ }
+
+ .color-btn:active {
+
+     transform: scale(.95);
+ }
+
+ .blue {
+     background: #3B82F6;
+ }
+
+ .red {
+     background: #EF4444;
+ }
+
+ .green {
+     background: #10B981;
+ }
+
+ .yellow {
+     background: #F59E0B;
+ }
+
+ /* =========================
+   ANIMAL MODE
+========================= */
+
+ .animal-zone {
+
+     display: grid;
+
+     grid-template-columns:
+         repeat(3, 1fr);
+
+     gap: 18px;
+ }
+
+ .animal {
+
+     background: white;
+
+     border-radius: 24px;
+
+     padding: 20px;
+
+     text-align: center;
+
+     cursor: pointer;
+
+     transition: .2s;
+
+     box-shadow:
+         0 8px 20px rgba(0, 0, 0, .10);
+ }
+
+ .animal:hover {
+
+     transform: translateY(-4px);
+ }
+
+ .animal-emoji {
+
+     font-size: 70px;
+
+     margin-bottom: 10px;
+ }
+
+ .animal-name {
+
+     font-weight: bold;
+
+     font-size: 20px;
+ }
+
+ /* =========================
+   POSE MODE
+========================= */
+
+ .pose-zone {
+
+     display: flex;
+
+     flex-direction: column;
+
+     justify-content: center;
+     align-items: center;
+
+     gap: 20px;
+
+     min-height: 330px;
+ }
+
+ .pose-emoji {
+
+     font-size: 140px;
+
+     animation: bounce 2s infinite;
+ }
+
+ .pose-text {
+
+     font-size: 30px;
+
+     font-weight: bold;
+
+     text-align: center;
+ }
+
+ /* =========================
+   FEEDBACK
+========================= */
+
+ .feedback {
+
+     margin-top: 25px;
+
+     text-align: center;
+
+     font-size: 34px;
+
+     font-weight: bold;
+
+     min-height: 40px;
+ }
+
+ /* =========================
+   SIDE PANEL
+========================= */
+
+ .side-panel {
+
+     background: var(--card);
+
+     border-radius: 30px;
+
+     padding: 25px;
+
+     box-shadow: var(--shadow);
+
+     height: fit-content;
+ }
+
+ .side-panel h2 {
+
+     color: var(--primary);
+
+     margin-bottom: 20px;
+
+     font-size: 34px;
+ }
+
+ .score-box {
+
+     text-align: center;
+ }
+
+ .score {
+
+     font-size: 90px;
+
+     font-weight: bold;
+
+     color: var(--primary);
+ }
+
+ .progress {
+
+     width: 100%;
+
+     height: 18px;
+
+     background: #E5EEF8;
+
+     border-radius: 20px;
+
+     overflow: hidden;
+
+     margin-top: 25px;
+ }
+
+ .bar {
+
+     width: 0%;
+
+     height: 100%;
+
+     background:
+         linear-gradient(90deg,
+             #4A90E2,
+             #8B5CF6);
+
+     transition: .4s;
+ }
+
+ .tips {
+
+     margin-top: 25px;
+
+     display: grid;
+
+     gap: 12px;
+ }
+
+ .tip {
+
+     background: #F7FAFF;
+
+     border-left: 6px solid var(--purple);
+
+     border-radius: 16px;
+
+     padding: 15px;
+
+     line-height: 1.7;
+ }
+
+ /* =========================
+   ANIMATIONS
+========================= */
+
+ @keyframes shine {
+
+     from {
+         transform:
+             translateX(-100%) rotate(25deg);
+     }
+
+     to {
+         transform:
+             translateX(250%) rotate(25deg);
+     }
+ }
+
+ @keyframes bounce {
+
+     0% {
+         transform: translateY(0);
+     }
+
+     50% {
+         transform: translateY(-12px);
+     }
+
+     100% {
+         transform: translateY(0);
+     }
+ }
+
+ .pop {
+
+     animation: pop .4s ease;
+ }
+
+ @keyframes pop {
+
+     from {
+         transform: scale(.6);
+         opacity: 0;
+     }
+
+     to {
+         transform: scale(1);
+         opacity: 1;
+     }
+ }
+
+ /* =========================
+   RESPONSIVE
+========================= */
+
+ @media(max-width:1100px) {
+
+     .main {
+         grid-template-columns: 1fr;
+     }
+ }
+
+ @media(max-width:768px) {
+
+     body {
+         padding: 12px;
+     }
+
+     .header,
+     .game-panel,
+     .side-panel {
+
+         padding: 18px;
+
+         border-radius: 24px;
+     }
+
+     .color-btn {
+
+         height: 110px;
+     }
+
+     .animal-zone {
+
+         grid-template-columns:
+             repeat(2, 1fr);
+     }
+
+     .animal-emoji {
+
+         font-size: 58px;
+     }
+
+     .pose-emoji {
+
+         font-size: 110px;
+     }
+
+     .pose-text {
+
+         font-size: 24px;
+     }
+
+     .score {
+
+         font-size: 70px;
+     }
+
+     button {
+         width: 100%;
+     }
+ }
+
+ @media(max-width:500px) {
+
+     .animal-zone {
+
+         grid-template-columns: 1fr;
+     }
+
+     .command {
+
+         font-size: 36px;
+     }
+ }

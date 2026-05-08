@@ -1,0 +1,503 @@
+   :root {
+
+       --bg: #0F172A;
+       --panel: #111827;
+       --card: #1E293B;
+
+       --lane1: #EF4444;
+       --lane2: #F59E0B;
+       --lane3: #10B981;
+       --lane4: #3B82F6;
+
+       --text: #F8FAFC;
+
+       --shadow:
+           0 15px 35px rgba(0, 0, 0, .35);
+   }
+
+   * {
+       margin: 0;
+       padding: 0;
+       box-sizing: border-box;
+   }
+
+   body {
+
+       font-family: Arial, Helvetica, sans-serif;
+
+       background:
+           radial-gradient(circle at top, #1E3A8A, #0F172A);
+
+       min-height: 100vh;
+
+       overflow: hidden;
+
+       color: var(--text);
+
+       touch-action: manipulation;
+   }
+
+   .game {
+
+       display: flex;
+       flex-direction: column;
+
+       height: 100vh;
+   }
+
+   /* =========================
+   HEADER
+========================= */
+
+   .header {
+
+       padding: 15px 20px;
+
+       display: flex;
+       justify-content: space-between;
+       align-items: center;
+
+       gap: 15px;
+
+       background: rgba(0, 0, 0, .25);
+
+       backdrop-filter: blur(10px);
+
+       border-bottom:
+           1px solid rgba(255, 255, 255, .08);
+   }
+
+   .title {
+
+       font-size:
+           clamp(24px, 4vw, 40px);
+
+       font-weight: bold;
+   }
+
+   .stats {
+
+       display: flex;
+       gap: 15px;
+       flex-wrap: wrap;
+   }
+
+   .stat {
+
+       background: rgba(255, 255, 255, .08);
+
+       padding: 12px 18px;
+
+       border-radius: 16px;
+
+       text-align: center;
+
+       min-width: 100px;
+   }
+
+   .stat-label {
+
+       font-size: 12px;
+       opacity: .7;
+   }
+
+   .stat-value {
+
+       font-size: 24px;
+       font-weight: bold;
+   }
+
+   /* =========================
+   MAIN GAME
+========================= */
+
+   .game-area {
+
+       flex: 1;
+
+       display: flex;
+
+       justify-content: center;
+
+       align-items: center;
+
+       padding: 20px;
+
+       overflow: hidden;
+   }
+
+   .board {
+
+       position: relative;
+
+       width: min(95vw, 600px);
+
+       height: 100%;
+
+       max-height: 900px;
+
+       background: rgba(255, 255, 255, .04);
+
+       border-radius: 30px;
+
+       overflow: hidden;
+
+       box-shadow: var(--shadow);
+
+       border:
+           2px solid rgba(255, 255, 255, .08);
+   }
+
+   /* =========================
+   TRACKS
+========================= */
+
+   .tracks {
+
+       position: absolute;
+
+       inset: 0;
+
+       display: grid;
+
+       grid-template-columns:
+           repeat(4, 1fr);
+   }
+
+   .track {
+
+       position: relative;
+
+       border-right:
+           2px solid rgba(255, 255, 255, .06);
+   }
+
+   .track:last-child {
+       border-right: none;
+   }
+
+   .track:nth-child(1) {
+       background: rgba(239, 68, 68, .08);
+   }
+
+   .track:nth-child(2) {
+       background: rgba(245, 158, 11, .08);
+   }
+
+   .track:nth-child(3) {
+       background: rgba(16, 185, 129, .08);
+   }
+
+   .track:nth-child(4) {
+       background: rgba(59, 130, 246, .08);
+   }
+
+   /* =========================
+   HIT LINE
+========================= */
+
+   .hit-line {
+
+       position: absolute;
+
+       left: 0;
+       right: 0;
+
+       bottom: 140px;
+
+       height: 8px;
+
+       background: white;
+
+       box-shadow:
+           0 0 20px white;
+
+       z-index: 5;
+   }
+
+   /* =========================
+   NOTES
+========================= */
+
+   .note {
+
+       position: absolute;
+
+       width: 85%;
+
+       left: 7.5%;
+
+       height: 60px;
+
+       border-radius: 18px;
+
+       animation: fall linear forwards;
+
+       box-shadow:
+           0 10px 20px rgba(0, 0, 0, .35);
+   }
+
+   .note.hit {
+
+       animation: none;
+
+       transform: scale(1.2);
+
+       opacity: 0;
+
+       transition: .2s;
+   }
+
+   .note.red {
+       background: var(--lane1);
+   }
+
+   .note.orange {
+       background: var(--lane2);
+   }
+
+   .note.green {
+       background: var(--lane3);
+   }
+
+   .note.blue {
+       background: var(--lane4);
+   }
+
+   /* =========================
+   CONTROLS
+========================= */
+
+   .controls {
+
+       position: absolute;
+
+       left: 0;
+       right: 0;
+       bottom: 0;
+
+       padding: 20px;
+
+       display: grid;
+
+       grid-template-columns:
+           repeat(4, 1fr);
+
+       gap: 15px;
+
+       z-index: 10;
+   }
+
+   .btn {
+
+       -webkit-tap-highlight-color: transparent;
+
+       touch-action: manipulation;
+
+       user-select: none;
+
+       -webkit-user-select: none;
+
+       height: 90px;
+
+       border: none;
+
+       border-radius: 24px;
+
+       cursor: pointer;
+
+       transition: .12s;
+
+       box-shadow:
+           0 8px 20px rgba(0, 0, 0, .25);
+
+       display: flex;
+       justify-content: center;
+       align-items: center;
+
+       font-size: 34px;
+
+       color: white;
+
+       font-weight: bold;
+   }
+
+   .btn:active,
+   .btn.active {
+
+       transform: scale(.92);
+
+       filter: brightness(1.3);
+   }
+
+   .btn.red {
+       background: var(--lane1);
+   }
+
+   .btn.orange {
+       background: var(--lane2);
+   }
+
+   .btn.green {
+       background: var(--lane3);
+   }
+
+   .btn.blue {
+       background: var(--lane4);
+   }
+
+   /* =========================
+   EFFECTS
+========================= */
+
+   .combo {
+
+       position: absolute;
+
+       top: 100px;
+       left: 50%;
+
+       transform: translateX(-50%);
+
+       font-size: 48px;
+
+       font-weight: bold;
+
+       opacity: 0;
+
+       z-index: 20;
+
+       pointer-events: none;
+   }
+
+   .combo.show {
+
+       animation: comboPop .8s ease;
+   }
+
+   .message {
+
+       position: absolute;
+
+       top: 170px;
+       left: 50%;
+
+       transform: translateX(-50%);
+
+       font-size: 28px;
+
+       font-weight: bold;
+
+       z-index: 20;
+
+       opacity: 0;
+   }
+
+   .message.show {
+
+       animation: messagePop .7s ease;
+   }
+
+   /* =========================
+   ANIMATIONS
+========================= */
+
+   @keyframes fall {
+
+       from {
+           top: -80px;
+       }
+
+       to {
+           top: 100%;
+       }
+   }
+
+   @keyframes comboPop {
+
+       0% {
+           opacity: 0;
+           transform:
+               translateX(-50%) scale(.4);
+       }
+
+       40% {
+           opacity: 1;
+           transform:
+               translateX(-50%) scale(1.2);
+       }
+
+       100% {
+           opacity: 0;
+           transform:
+               translateX(-50%) translateY(-40px) scale(1);
+       }
+   }
+
+   @keyframes messagePop {
+
+       0% {
+           opacity: 0;
+           transform:
+               translateX(-50%) scale(.5);
+       }
+
+       30% {
+           opacity: 1;
+           transform:
+               translateX(-50%) scale(1.1);
+       }
+
+       100% {
+           opacity: 0;
+           transform:
+               translateX(-50%) translateY(-20px);
+       }
+   }
+
+   /* =========================
+   MOBILE
+========================= */
+
+   @media(max-width:768px) {
+
+       .header {
+           padding: 10px;
+       }
+
+       .stat {
+           min-width: 80px;
+           padding: 10px;
+       }
+
+       .stat-value {
+           font-size: 20px;
+       }
+
+       .controls {
+           gap: 10px;
+           padding: 15px;
+       }
+
+       .btn {
+           height: 75px;
+           font-size: 28px;
+           border-radius: 20px;
+       }
+
+       .hit-line {
+           bottom: 120px;
+       }
+
+       .note {
+           height: 50px;
+       }
+
+       .combo {
+           font-size: 36px;
+       }
+
+       .message {
+           font-size: 22px;
+       }
+   }

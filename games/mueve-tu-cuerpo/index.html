@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="
+        width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no
+    " />
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+    <title>🏃 Movimiento Corporal Kids</title>
+
+
+</head>
+
+<body>
+
+    <div class="game">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>🏃 Juegos con Movimiento Corporal</h1>
+
+            <p>
+                Juego diseñado para niños con TDAH
+                que combina atención,
+                movimiento físico,
+                coordinación y energía corporal.
+            </p>
+
+            <div class="badges">
+
+                <div class="badge">
+                    ⚡ Liberar Energía
+                </div>
+
+                <div class="badge">
+                    🎯 Atención
+                </div>
+
+                <div class="badge">
+                    🧠 Coordinación
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="newChallenge()">
+                    ▶️ Nuevo Reto
+                </button>
+
+                <button class="warning" onclick="resetGame()">
+                    🔄 Reiniciar
+                </button>
+
+            </div>
+
+        </div>
+
+        <!-- MAIN -->
+
+        <div class="main">
+
+            <!-- GAME PANEL -->
+
+            <div class="game-panel">
+
+                <div class="top-info">
+
+                    <div class="level" id="modeText">
+                        🎨 Modo Colores
+                    </div>
+
+                    <div class="level" id="levelText">
+                        Nivel 1
+                    </div>
+
+                </div>
+
+                <!-- COMMAND -->
+
+                <div class="command-box">
+
+                    <div class="command-title">
+                        Sigue la instrucción
+                    </div>
+
+                    <div class="command" id="command">
+                        Toca el color azul
+                    </div>
+
+                </div>
+
+                <!-- ACTION -->
+
+                <div class="action-zone" id="actionZone"></div>
+
+                <!-- FEEDBACK -->
+
+                <div class="feedback" id="feedback"></div>
+
+            </div>
+
+            <!-- SIDE PANEL -->
+
+            <div class="side-panel">
+
+                <h2>🏆 Progreso</h2>
+
+                <div class="score-box">
+
+                    <div>Puntaje</div>
+
+                    <div class="score" id="score">
+                        0
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="bar" id="bar"></div>
+
+                </div>
+
+                <div class="tips">
+
+                    <div class="tip">
+                        💡 Usa movimientos amplios
+                        y rápidos.
+                    </div>
+
+                    <div class="tip">
+                        🧠 Escucha o lee la instrucción
+                        antes de actuar.
+                    </div>
+
+                    <div class="tip">
+                        ⚡ El movimiento ayuda a regular
+                        energía y atención.
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

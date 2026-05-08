@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Constructor de Historias</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="header">
+
+            <h1>📖 Constructor de Historias</h1>
+
+            <p>
+                Juego educativo para niños con TDAH
+                enfocado en creatividad,
+                lenguaje y secuenciación narrativa.
+            </p>
+
+            <div class="info">
+
+                <div class="badge">
+                    ✨ Creatividad
+                </div>
+
+                <div class="badge">
+                    🧠 Lenguaje
+                </div>
+
+                <div class="badge">
+                    📚 Secuenciación
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="generateStoryElements()">
+                    🎲 Nuevas Ideas
+                </button>
+
+                <button class="warning" onclick="clearStory()">
+                    🧹 Limpiar Historia
+                </button>
+
+                <button class="success" onclick="saveStory()">
+                    💾 Guardar Historia
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <!-- =========================
+             STORY PANEL
+        ========================== -->
+
+            <div class="story-panel">
+
+                <div class="cards">
+
+                    <!-- PERSONAJE -->
+
+                    <div class="story-card">
+
+                        <div class="card-title">
+                            👦 Personaje
+                        </div>
+
+                        <div class="card-emoji" id="characterEmoji">
+                            🧙
+                        </div>
+
+                        <div class="card-value" id="character">
+                            Un mago distraído
+                        </div>
+
+                    </div>
+
+                    <!-- LUGAR -->
+
+                    <div class="story-card">
+
+                        <div class="card-title">
+                            🏰 Lugar
+                        </div>
+
+                        <div class="card-emoji" id="placeEmoji">
+                            🌋
+                        </div>
+
+                        <div class="card-value" id="place">
+                            Un volcán misterioso
+                        </div>
+
+                    </div>
+
+                    <!-- OBJETO -->
+
+                    <div class="story-card">
+
+                        <div class="card-title">
+                            🗝 Objeto
+                        </div>
+
+                        <div class="card-emoji" id="objectEmoji">
+                            💎
+                        </div>
+
+                        <div class="card-value" id="object">
+                            Una piedra brillante
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =========================
+                 BUILDER
+            ========================== -->
+
+                <div class="builder">
+
+                    <h2>✍️ Construye tu Historia</h2>
+
+                    <div class="story-steps">
+
+                        <div class="step">
+
+                            <div class="step-title">
+                                🟢 Inicio
+                            </div>
+
+                            <textarea id="start" placeholder="¿Quién es el personaje y qué estaba haciendo?"></textarea>
+
+                        </div>
+
+                        <div class="step">
+
+                            <div class="step-title">
+                                🟡 Problema o aventura
+                            </div>
+
+                            <textarea id="middle" placeholder="¿Qué ocurrió en el lugar?"></textarea>
+
+                        </div>
+
+                        <div class="step">
+
+                            <div class="step-title">
+                                🔵 Final
+                            </div>
+
+                            <textarea id="end" placeholder="¿Cómo terminó la historia?"></textarea>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- =========================
+             SIDE PANEL
+        ========================== -->
+
+            <div class="side-panel">
+
+                <h2>🏆 Progreso</h2>
+
+                <div class="progress-box">
+
+                    <div>
+                        Historia Completa
+                    </div>
+
+                    <div class="big-score" id="progressText">
+                        0%
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="bar" id="bar"></div>
+
+                </div>
+
+                <div class="idea-box">
+
+                    <div class="idea">
+                        💡 Mezcla imaginación y aventura.
+                    </div>
+
+                    <div class="idea">
+                        💡 Describe colores y sonidos.
+                    </div>
+
+                    <div class="idea">
+                        💡 Piensa qué siente el personaje.
+                    </div>
+
+                </div>
+
+                <div class="mini-tips">
+
+                    <div class="tip">
+                        📚 Las historias tienen:
+                        inicio, problema y final.
+                    </div>
+
+                    <div class="tip">
+                        🧠 Escribir historias mejora
+                        memoria y secuenciación.
+                    </div>
+
+                    <div class="tip">
+                        ✨ No hay respuestas malas.
+                        Tu imaginación es importante.
+                    </div>
+
+                </div>
+
+                <div class="save-message" id="saveMessage"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

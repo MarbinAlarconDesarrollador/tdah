@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Patrones Lógicos - TDAH Kids</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+</head>
+
+<body>
+
+    <div class="game">
+
+        <div class="header">
+
+            <h1>🧩 Patrones Lógicos</h1>
+
+            <p>
+                Juego diseñado para niños con TDAH
+                para fortalecer razonamiento,
+                atención y predicción.
+            </p>
+
+            <div class="info">
+
+                <div class="badge">
+                    🧠 Razonamiento
+                </div>
+
+                <div class="badge">
+                    🎯 Atención
+                </div>
+
+                <div class="badge">
+                    🔮 Predicción
+                </div>
+
+            </div>
+
+            <div class="controls">
+
+                <button class="primary" onclick="nextPattern()">
+                    ▶️ Nuevo Patrón
+                </button>
+
+                <button class="warning" onclick="resetGame()">
+                    🔄 Reiniciar
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="main">
+
+            <div class="panel">
+
+                <div class="level-box">
+
+                    <div class="level" id="level">
+                        Nivel 1
+                    </div>
+
+                    <div class="level" id="lives">
+                        ❤️ ❤️ ❤️
+                    </div>
+
+                </div>
+
+                <div class="pattern-area">
+
+                    <div class="pattern" id="pattern"></div>
+
+                    <div class="feedback" id="feedback"></div>
+
+                </div>
+
+                <div class="options" id="options"></div>
+
+            </div>
+
+            <div class="side-panel">
+
+                <h2>🏆 Progreso</h2>
+
+                <div class="score-box">
+
+                    <div>Puntaje</div>
+
+                    <div class="big-score" id="score">
+                        0
+                    </div>
+
+                </div>
+
+                <div class="progress">
+
+                    <div class="bar" id="bar"></div>
+
+                </div>
+
+                <div class="stars">
+
+                    <div class="star active">⭐</div>
+                    <div class="star">⭐</div>
+                    <div class="star">⭐</div>
+
+                </div>
+
+                <div class="tip" id="tip">
+
+                    💡 Observa cuidadosamente
+                    qué se repite y qué cambia.
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+
+</body>
+
+</html>

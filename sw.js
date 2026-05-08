@@ -1,4 +1,4 @@
-const CACHE_NAME = 'focus-play-v2';
+const CACHE_NAME = 'focus-play-v3';
 
 // Lista de todos los archivos que queremos que funcionen sin internet
 const ASSETS_TO_CACHE = [
@@ -53,6 +53,18 @@ const ASSETS_TO_CACHE = [
     '/games/wordle/index.html',
     '/games/wordle/style.css',
     '/games/wordle/script.js',
+    '/games/historias/index.html',
+    '/games/historias/style.css',
+    '/games/historias/script.js',
+    '/games/mueve-tu-cuerpo/index.html',
+    '/games/mueve-tu-cuerpo/style.css',
+    '/games/mueve-tu-cuerpo/script.js',
+    '/games/patrones/index.html',
+    '/games/patrones/style.css',
+    '/games/patrones/script.js',
+    '/games/ritmo/index.html',
+    '/games/ritmo/style.css',
+    '/games/ritmo/script.js',
     '/assets/icon-192.png',
     '/assets/icon-512.png',
     '/assets/meta.png',
@@ -72,6 +84,10 @@ const ASSETS_TO_CACHE = [
     '/assets/wordle.png',
     '/assets/simon-dice.png',
     '/assets/cuentos.png',
+    '/assets/historias.png',
+    '/assets/mueve-tu-cuerpo.png',
+    '/assets/patrones.png',
+    '/assets/ritmo.png',
     '/assets/flecha-derecha.png',
     '/assets/flecha-izquierda.png',
     '/assets/rotar.png',
