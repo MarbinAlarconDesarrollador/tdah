@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8"/>
+
+<meta
+    name="viewport"
+    content="
+        width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no
+    "
+/>
+
+<title>🧩 Laberintos Kids</title>
+
+<style>
+
+:root{
+
+    --bg:#F4F8FF;
+    --card:#FFFFFF;
+
+    --primary:#4A90E2;
+    --success:#10B981;
+    --danger:#EF4444;
+    --warning:#F59E0B;
+    --purple:#8B5CF6;
+
+    --wall:#334155;
+    --path:#EAF4FF;
+
+    --text:#334155;
+
+    --shadow:
+        0 12px 30px rgba(0,0,0,.10);
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+
+    font-family:Arial, Helvetica, sans-serif;
+
+    background:
+        linear-gradient(
+            180deg,
+            #EAF4FF,
+            #F8FBFF
+        );
+
+    min-height:100vh;
+
+    padding:20px;
+
+    color:var(--text);
+
+    overflow-x:hidden;
+}
+
+.game{
+
+    max-width:1400px;
+
+    margin:auto;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+
+    background:var(--card);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    margin-bottom:20px;
+}
+
+.header h1{
+
+    color:var(--primary);
+
+    font-size:
+        clamp(30px,5vw,48px);
+
+    margin-bottom:12px;
+}
+
+.header p{
+
+    line-height:1.8;
+
+    font-size:
+        clamp(15px,2vw,18px);
+}
+
+.badges{
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:12px;
+
+    margin-top:20px;
+}
+
+.badge{
+
+    background:#EEF5FF;
+
+    padding:12px 16px;
+
+    border-radius:14px;
+
+    font-weight:bold;
+}
+
+.controls{
+
+    margin-top:20px;
+
+    display:flex;
+    flex-wrap:wrap;
+
+    gap:12px;
+}
+
+button{
+
+    border:none;
+
+    cursor:pointer;
+
+    padding:14px 20px;
+
+    border-radius:16px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+button:hover{
+
+    transform:scale(1.03);
+}
+
+.primary{
+
+    background:var(--primary);
+
+    color:white;
+}
+
+.warning{
+
+    background:var(--warning);
+
+    color:white;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.main{
+
+    display:grid;
+
+    grid-template-columns:
+        1fr 350px;
+
+    gap:20px;
+}
+
+/* =========================
+   GAME PANEL
+========================= */
+
+.game-panel{
+
+    background:var(--card);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+}
+
+.top-info{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    flex-wrap:wrap;
+
+    gap:15px;
+
+    margin-bottom:25px;
+}
+
+.level-box{
+
+    background:#EEF5FF;
+
+    padding:12px 18px;
+
+    border-radius:14px;
+
+    font-weight:bold;
+}
+
+/* =========================
+   MAZE
+========================= */
+
+.maze-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    background:
+        linear-gradient(
+            180deg,
+            #EFF7FF,
+            #F8FBFF
+        );
+
+    border-radius:30px;
+
+    padding:20px;
+
+    overflow:auto;
+}
+
+.maze{
+
+    display:grid;
+
+    gap:3px;
+
+    touch-action:none;
+}
+
+.cell{
+
+    width:42px;
+    height:42px;
+
+    border-radius:10px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    transition:.15s;
+
+    user-select:none;
+}
+
+.wall{
+
+    background:var(--wall);
+}
+
+.path{
+
+    background:var(--path);
+}
+
+.player{
+
+    background:
+        linear-gradient(
+            135deg,
+            #4A90E2,
+            #8B5CF6
+        );
+
+    color:white;
+
+    font-size:24px;
+
+    box-shadow:
+        0 0 15px rgba(74,144,226,.5);
+}
+
+.goal{
+
+    background:
+        linear-gradient(
+            135deg,
+            #10B981,
+            #34D399
+        );
+
+    color:white;
+
+    font-size:24px;
+
+    animation:pulse 1.5s infinite;
+}
+
+.visited{
+
+    background:#D6E9FF;
+}
+
+/* =========================
+   MOBILE CONTROLS
+========================= */
+
+.mobile-controls{
+
+    margin-top:25px;
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+
+    gap:10px;
+}
+
+.row{
+
+    display:flex;
+    gap:10px;
+}
+
+.move-btn{
+
+    width:80px;
+    height:80px;
+
+    border-radius:24px;
+
+    font-size:34px;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #4A90E2,
+            #8B5CF6
+        );
+
+    color:white;
+
+    box-shadow:
+        0 8px 20px rgba(0,0,0,.15);
+
+    -webkit-tap-highlight-color: transparent;
+
+    touch-action: manipulation;
+}
+
+.move-btn:active{
+
+    transform:scale(.92);
+}
+
+/* =========================
+   FEEDBACK
+========================= */
+
+.feedback{
+
+    margin-top:20px;
+
+    text-align:center;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    min-height:40px;
+}
+
+/* =========================
+   SIDE PANEL
+========================= */
+
+.side-panel{
+
+    background:var(--card);
+
+    border-radius:30px;
+
+    padding:25px;
+
+    box-shadow:var(--shadow);
+
+    height:fit-content;
+}
+
+.side-panel h2{
+
+    color:var(--primary);
+
+    margin-bottom:20px;
+
+    font-size:34px;
+}
+
+.score-box{
+
+    text-align:center;
+}
+
+.score{
+
+    font-size:90px;
+
+    font-weight:bold;
+
+    color:var(--primary);
+}
+
+.progress{
+
+    width:100%;
+
+    height:18px;
+
+    background:#E5EEF8;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+    margin-top:25px;
+}
+
+.bar{
+
+    width:0%;
+
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #4A90E2,
+            #8B5CF6
+        );
+
+    transition:.4s;
+}
+
+.tips{
+
+    margin-top:25px;
+
+    display:grid;
+
+    gap:12px;
+}
+
+.tip{
+
+    background:#F7FAFF;
+
+    border-left:6px solid var(--purple);
+
+    border-radius:16px;
+
+    padding:15px;
+
+    line-height:1.7;
+}
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes pulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
+    100%{
+        transform:scale(1);
+    }
+}
+
+.pop{
+
+    animation:pop .4s ease;
+}
+
+@keyframes pop{
+
+    from{
+        transform:scale(.6);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:1100px){
+
+    .main{
+        grid-template-columns:1fr;
+    }
+}
+
+@media(max-width:768px){
+
+    body{
+        padding:12px;
+    }
+
+    .header,
+    .game-panel,
+    .side-panel{
+
+        padding:18px;
+
+        border-radius:24px;
+    }
+
+    .cell{
+
+        width:34px;
+        height:34px;
+
+        border-radius:8px;
+    }
+
+    .move-btn{
+
+        width:70px;
+        height:70px;
+
+        font-size:30px;
+    }
+
+    .score{
+
+        font-size:70px;
+    }
+
+    button{
+        width:100%;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="game">
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>🧩 Laberintos por Niveles</h1>
+
+        <p>
+            Juego diseñado para niños con TDAH
+            para fortalecer atención,
+            planificación,
+            coordinación y persistencia.
+        </p>
+
+        <div class="badges">
+
+            <div class="badge">
+                🎯 Atención
+            </div>
+
+            <div class="badge">
+                🧠 Planificación
+            </div>
+
+            <div class="badge">
+                🚀 Persistencia
+            </div>
+
+        </div>
+
+        <div class="controls">
+
+            <button
+                class="primary"
+                onclick="nextLevel()"
+            >
+                ▶️ Nuevo Nivel
+            </button>
+
+            <button
+                class="warning"
+                onclick="resetGame()"
+            >
+                🔄 Reiniciar
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- MAIN -->
+
+    <div class="main">
+
+        <!-- GAME -->
+
+        <div class="game-panel">
+
+            <div class="top-info">
+
+                <div
+                    class="level-box"
+                    id="levelText"
+                >
+                    Nivel 1
+                </div>
+
+                <div
+                    class="level-box"
+                    id="movesText"
+                >
+                    Movimientos: 0
+                </div>
+
+            </div>
+
+            <!-- MAZE -->
+
+            <div class="maze-container">
+
+                <div
+                    class="maze"
+                    id="maze"
+                ></div>
+
+            </div>
+
+            <!-- MOBILE CONTROLS -->
+
+            <div class="mobile-controls">
+
+                <button
+                    class="move-btn"
+                    onclick="movePlayer(0,-1)"
+                >
+                    ⬆️
+                </button>
+
+                <div class="row">
+
+                    <button
+                        class="move-btn"
+                        onclick="movePlayer(-1,0)"
+                    >
+                        ⬅️
+                    </button>
+
+                    <button
+                        class="move-btn"
+                        onclick="movePlayer(1,0)"
+                    >
+                        ➡️
+                    </button>
+
+                </div>
+
+                <button
+                    class="move-btn"
+                    onclick="movePlayer(0,1)"
+                >
+                    ⬇️
+                </button>
+
+            </div>
+
+            <!-- FEEDBACK -->
+
+            <div
+                class="feedback"
+                id="feedback"
+            ></div>
+
+        </div>
+
+        <!-- SIDE PANEL -->
+
+        <div class="side-panel">
+
+            <h2>🏆 Progreso</h2>
+
+            <div class="score-box">
+
+                <div>Puntaje</div>
+
+                <div
+                    class="score"
+                    id="score"
+                >
+                    0
+                </div>
+
+            </div>
+
+            <div class="progress">
+
+                <div
+                    class="bar"
+                    id="bar"
+                ></div>
+
+            </div>
+
+            <div class="tips">
+
+                <div class="tip">
+                    💡 Busca el camino hacia la meta.
+                </div>
+
+                <div class="tip">
+                    🧠 Planea antes de moverte.
+                </div>
+
+                <div class="tip">
+                    ⚡ Los laberintos ayudan
+                    a entrenar foco y paciencia.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const mazeElement =
+    document.getElementById("maze");
+
+const levelText =
+    document.getElementById("levelText");
+
+const movesText =
+    document.getElementById("movesText");
+
+const feedback =
+    document.getElementById("feedback");
+
+const scoreText =
+    document.getElementById("score");
+
+const bar =
+    document.getElementById("bar");
+
+/* =========================
+   GAME STATE
+========================= */
+
+let level = 1;
+let score = 0;
+let moves = 0;
+
+let player = {x:1,y:1};
+
+let maze = [];
+
+/* =========================
+   LEVELS
+========================= */
+
+const levels = [
+
+[
+[1,1,1,1,1,1,1],
+[1,0,0,0,0,2,1],
+[1,0,1,1,0,1,1],
+[1,0,0,1,0,0,1],
+[1,1,0,0,0,1,1],
+[1,1,1,1,1,1,1]
+],
+
+[
+[1,1,1,1,1,1,1,1],
+[1,0,0,0,1,0,2,1],
+[1,0,1,0,1,0,1,1],
+[1,0,1,0,0,0,0,1],
+[1,0,1,1,1,1,0,1],
+[1,0,0,0,0,0,0,1],
+[1,1,1,1,1,1,1,1]
+],
+
+[
+[1,1,1,1,1,1,1,1,1],
+[1,0,0,0,1,0,0,2,1],
+[1,0,1,0,1,0,1,1,1],
+[1,0,1,0,0,0,0,0,1],
+[1,0,1,1,1,1,1,0,1],
+[1,0,0,0,0,0,1,0,1],
+[1,1,1,1,1,0,1,0,1],
+[1,1,1,1,1,1,1,1,1]
+]
+
+];
+
+/* =========================
+   INIT LEVEL
+========================= */
+
+function loadLevel(){
+
+    maze =
+        JSON.parse(
+            JSON.stringify(
+                levels[level - 1]
+            )
+        );
+
+    player = {x:1,y:1};
+
+    moves = 0;
+
+    feedback.innerHTML = "";
+
+    renderMaze();
+
+    updateUI();
+}
+
+/* =========================
+   RENDER
+========================= */
+
+function renderMaze(){
+
+    mazeElement.innerHTML = "";
+
+    mazeElement.style.gridTemplateColumns =
+        `repeat(${maze[0].length},1fr)`;
+
+    maze.forEach((row,y) => {
+
+        row.forEach((cell,x) => {
+
+            const div =
+                document.createElement("div");
+
+            div.classList.add("cell");
+
+            if(cell === 1){
+
+                div.classList.add("wall");
+
+            }else{
+
+                div.classList.add("path");
+            }
+
+            if(cell === 3){
+
+                div.classList.add("visited");
+            }
+
+            if(cell === 2){
+
+                div.classList.add("goal");
+
+                div.innerHTML = "⭐";
+            }
+
+            if(
+                player.x === x &&
+                player.y === y
+            ){
+
+                div.classList.add("player");
+
+                div.innerHTML = "🧒";
+            }
+
+            mazeElement.appendChild(div);
+
+        });
+
+    });
+}
+
+/* =========================
+   MOVE
+========================= */
+
+function movePlayer(dx,dy){
+
+    const nx =
+        player.x + dx;
+
+    const ny =
+        player.y + dy;
+
+    const cell =
+        maze[ny][nx];
+
+    if(cell === 1){
+
+        playFail();
+
+        return;
+    }
+
+    maze[player.y][player.x] = 3;
+
+    player.x = nx;
+    player.y = ny;
+
+    moves++;
+
+    renderMaze();
+
+    updateUI();
+
+    playMove();
+
+    if(navigator.vibrate){
+
+        navigator.vibrate(25);
+    }
+
+    if(cell === 2){
+
+        winLevel();
+    }
+}
+
+/* =========================
+   WIN
+========================= */
+
+function winLevel(){
+
+    feedback.innerHTML =
+        "🎉 ¡Nivel completado!";
+
+    feedback.style.color =
+        "var(--success)";
+
+    score += 100;
+
+    updateUI();
+
+    playSuccess();
+
+    if(navigator.vibrate){
+
+        navigator.vibrate([60,40,60]);
+    }
+
+    setTimeout(() => {
+
+        if(level < levels.length){
+
+            level++;
+
+            loadLevel();
+
+        }else{
+
+            feedback.innerHTML =
+                "🏆 ¡Completaste todos los niveles!";
+
+        }
+
+    },1400);
+}
+
+/* =========================
+   UI
+========================= */
+
+function updateUI(){
+
+    levelText.innerHTML =
+        `Nivel ${level}`;
+
+    movesText.innerHTML =
+        `Movimientos: ${moves}`;
+
+    scoreText.innerHTML =
+        score;
+
+    const percent =
+        Math.min(
+            (score / 300) * 100,
+            100
+        );
+
+    bar.style.width =
+        percent + "%";
+}
+
+/* =========================
+   AUDIO
+========================= */
+
+function playMove(){
+
+    const ctx =
+        new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.frequency.value = 280;
+
+    osc.type = "triangle";
+
+    osc.connect(gain);
+
+    gain.connect(ctx.destination);
+
+    osc.start();
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime + .1
+    );
+
+    osc.stop(
+        ctx.currentTime + .1
+    );
+}
+
+function playSuccess(){
+
+    const ctx =
+        new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.frequency.value = 520;
+
+    osc.type = "triangle";
+
+    osc.connect(gain);
+
+    gain.connect(ctx.destination);
+
+    osc.start();
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime + .5
+    );
+
+    osc.stop(
+        ctx.currentTime + .5
+    );
+}
+
+function playFail(){
+
+    const ctx =
+        new(
+            window.AudioContext ||
+            window.webkitAudioContext
+        )();
+
+    const osc =
+        ctx.createOscillator();
+
+    const gain =
+        ctx.createGain();
+
+    osc.frequency.value = 120;
+
+    osc.type = "sine";
+
+    osc.connect(gain);
+
+    gain.connect(ctx.destination);
+
+    osc.start();
+
+    gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        ctx.currentTime + .3
+    );
+
+    osc.stop(
+        ctx.currentTime + .3
+    );
+}
+
+/* =========================
+   KEYBOARD
+========================= */
+
+document.addEventListener(
+    "keydown",
+    e => {
+
+    if(e.key === "ArrowUp"){
+
+        movePlayer(0,-1);
+    }
+
+    if(e.key === "ArrowDown"){
+
+        movePlayer(0,1);
+    }
+
+    if(e.key === "ArrowLeft"){
+
+        movePlayer(-1,0);
+    }
+
+    if(e.key === "ArrowRight"){
+
+        movePlayer(1,0);
+    }
+
+});
+
+/* =========================
+   RESET
+========================= */
+
+function nextLevel(){
+
+    if(level < levels.length){
+
+        level++;
+
+    }else{
+
+        level = 1;
+    }
+
+    loadLevel();
+}
+
+function resetGame(){
+
+    level = 1;
+
+    score = 0;
+
+    moves = 0;
+
+    loadLevel();
+}
+
+/* =========================
+   INIT
+========================= */
+
+loadLevel();
+
+</script>
+
+</body>
+</html>
