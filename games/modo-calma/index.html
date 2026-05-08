@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8" />
+
+    <meta name="viewport" content="
+        width=device-width,
+        initial-scale=1.0,
+        maximum-scale=1.0,
+        user-scalable=no
+    " />
+
+    <title>🌙 Modo Calma</title>
+    <link rel="stylesheet" href="global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="manifest" href="manifest.json" />
+
+
+
+</head>
+
+<body>
+
+    <div class="rain" id="rain"></div>
+
+    <div class="app">
+
+        <!-- HEADER -->
+
+        <div class="header">
+
+            <h1>🌙 Modo Calma</h1>
+
+            <p>
+                Espacio diseñado para ayudar a niños
+                con TDAH a reducir ansiedad,
+                frustración,
+                hiperactividad y sobreestimulación
+                mediante respiración,
+                sonidos relajantes
+                y ejercicios suaves.
+            </p>
+
+            <div class="badges">
+
+                <div class="badge">
+                    🧠 Autorregulación
+                </div>
+
+                <div class="badge">
+                    🌧️ Relajación
+                </div>
+
+                <div class="badge">
+                    💛 Reducción de ansiedad
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MAIN -->
+
+        <div class="main">
+
+            <!-- MAIN PANEL -->
+
+            <div class="panel">
+
+                <!-- BREATHING -->
+
+                <div class="breathing-section">
+
+                    <div class="breathing-title">
+                        🌬️ Respiración Guiada
+                    </div>
+
+                    <div class="breathing-sub">
+                        Respira siguiendo el círculo
+                    </div>
+
+                    <div class="breathing-container">
+
+                        <div class="breath-circle" id="breathCircle">
+                            INHALA
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- CONTROLS -->
+
+                <div class="controls">
+
+                    <button class="btn primary" onclick="toggleBreathing()">
+                        🌬️ Respirar
+                    </button>
+
+                    <button class="btn success" onclick="playRain()">
+                        🌧️ Lluvia
+                    </button>
+
+                    <button class="btn warning" onclick="playWhiteNoise()">
+                        📻 Ruido Blanco
+                    </button>
+
+                    <button class="btn soft" onclick="nextExercise()">
+                        🧘 Ejercicio
+                    </button>
+
+                </div>
+
+                <!-- AMBIENT -->
+
+                <div class="ambient-grid">
+
+                    <div class="sound-card" onclick="playSound('rain',this)">
+
+                        <div class="sound-icon">
+                            🌧️
+                        </div>
+
+                        <div class="sound-name">
+                            Lluvia
+                        </div>
+
+                    </div>
+
+                    <div class="sound-card" onclick="playSound('forest',this)">
+
+                        <div class="sound-icon">
+                            🌳
+                        </div>
+
+                        <div class="sound-name">
+                            Bosque
+                        </div>
+
+                    </div>
+
+                    <div class="sound-card" onclick="playSound('ocean',this)">
+
+                        <div class="sound-icon">
+                            🌊
+                        </div>
+
+                        <div class="sound-name">
+                            Océano
+                        </div>
+
+                    </div>
+
+                    <div class="sound-card" onclick="playSound('wind',this)">
+
+                        <div class="sound-icon">
+                            🍃
+                        </div>
+
+                        <div class="sound-name">
+                            Viento
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- EXERCISE -->
+
+                <div class="exercise-box">
+
+                    <div class="exercise-title">
+                        🧘 Mini Ejercicio
+                    </div>
+
+                    <div class="exercise-text" id="exerciseText">
+                        Cierra los ojos 5 segundos
+                        y escucha tu respiración.
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- SIDE PANEL -->
+
+            <div class="panel side-panel">
+
+                <h2>💛 Estado</h2>
+
+                <div class="state-box">
+
+                    <div class="state-label">
+                        Nivel de calma
+                    </div>
+
+                    <div class="state-value" id="calmText">
+                        Tranquilo 🌙
+                    </div>
+
+                    <div class="progress">
+
+                        <div class="bar" id="bar"></div>
+
+                    </div>
+
+                </div>
+
+                <div class="tip">
+                    💡 Usa esta sección cuando el niño
+                    esté frustrado,
+                    hiperactivo
+                    o necesite relajarse.
+                </div>
+
+                <div class="tip">
+                    🌬️ Respirar lentamente ayuda
+                    a reducir impulsividad
+                    y ansiedad.
+                </div>
+
+                <div class="tip">
+                    🎧 Los sonidos suaves ayudan
+                    a regular la sobreestimulación.
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+    <script src="script.js"></script>
+</body>
+
+</html>
