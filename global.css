@@ -184,6 +184,7 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 .game-card.mueve-tu-cuerpo { border-color: var(--primary); }
 .game-card.laberintos { border-color: var(--success); }
 .game-card.modo-calma { border-color: var(--info); }
+.game-card.leyendas { border-color: var(--danger); }
 
 .game-icon { font-size: 3rem; margin-bottom: 10px; }
 .game-title { font-weight: bold; font-size: 1.1rem; }
@@ -236,6 +237,8 @@ p { color: #64748B; margin: 0; font-size: 1.1rem; }
 .game-card:nth-child(20){ animation-delay: 1s, 0s; }
 .game-card:nth-child(21){ animation-delay: 1.05s, 0s; }
 .game-card:nth-child(22){ animation-delay: 1.1s, 0s; }
+.game-card:nth-child(23){ animation-delay: 1.15s, 0s; }
+.game-card:nth-child(24){ animation-delay: 1.2s, 0s }
 
 /* Entrada */
 

@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Super Constructor de Historias
+    </title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="app" id="captureArea">
+
+        <!-- =========================
+             HEADER
+        ========================== -->
+
+        <header class="header">
+
+            <h1>
+                📖 Constructor Libre de Historias
+            </h1>
+
+            <p>
+                Crea personajes, escenarios,
+                objetos y aventuras increíbles.
+            </p>
+
+        </header>
+
+        <!-- =========================
+             MAIN
+        ========================== -->
+
+        <main class="main">
+
+            <!-- =========================
+                 LEFT
+            ========================== -->
+
+            <section class="left-panel">
+
+                <!-- =========================
+                     CHARACTER BUILDER
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>
+                        👤 Constructor de Personaje
+                    </h2>
+
+                    <div class="character-preview">
+
+                        <img
+                            id="headLayer"
+                            class="layer"
+                            src="assets/heads/head1.png">
+
+                        <img
+                            id="eyesLayer"
+                            class="layer"
+                            src="assets/eyes/eyes1.png">
+
+                        <img
+                            id="mouthLayer"
+                            class="layer"
+                            src="assets/mouths/mouth1.png">
+
+                        <img
+                            id="accessoryLayer"
+                            class="layer"
+                            src="assets/accessories/accessory1.png">
+
+                    </div>
+
+                    <div class="builder-grid">
+
+                        <div>
+
+                            <label>
+                                Cabeza
+                            </label>
+
+                            <select id="headSelect">
+
+                                <option value="head1.png">
+                                    Dragón
+                                </option>
+
+                                <option value="head2.png">
+                                    Marciano
+                                </option>
+
+                                <option value="head3.png">
+                                    Caballero
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Ojos
+                            </label>
+
+                            <select id="eyesSelect">
+
+                                <option value="eyes1.png">
+                                    Gigantes
+                                </option>
+
+                                <option value="eyes2.png">
+                                    Láser
+                                </option>
+
+                                <option value="eyes3.png">
+                                    Divertidos
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Boca
+                            </label>
+
+                            <select id="mouthSelect">
+
+                                <option value="mouth1.png">
+                                    Dientes enormes
+                                </option>
+
+                                <option value="mouth2.png">
+                                    Sonrisa
+                                </option>
+
+                                <option value="mouth3.png">
+                                    Fuego
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                        <div>
+
+                            <label>
+                                Accesorio
+                            </label>
+
+                            <select id="accessorySelect">
+
+                                <option value="accessory1.png">
+                                    Espada
+                                </option>
+
+                                <option value="accessory2.png">
+                                    Alas
+                                </option>
+
+                                <option value="accessory3.png">
+                                    Capa
+                                </option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <!-- =========================
+                     WORLD BUILDER
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>
+                        🌎 Escenario
+                    </h2>
+
+                    <div class="background-preview">
+
+                        <img
+                            id="backgroundLayer"
+                            src="assets/backgrounds/bg1.jpg">
+
+                    </div>
+
+                    <label>
+                        Lugar
+                    </label>
+
+                    <select id="backgroundSelect">
+
+                        <option value="bg1.jpg">
+                            Bosque mágico
+                        </option>
+
+                        <option value="bg2.jpg">
+                            Planeta alienígena
+                        </option>
+
+                        <option value="bg3.jpg">
+                            Castillo encantado
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- =========================
+                     OBJECT BUILDER
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>
+                        🧩 Objetos
+                    </h2>
+
+                    <select id="objectSelect">
+
+                        <option value="Espada mágica">
+                            Espada mágica
+                        </option>
+
+                        <option value="Cristal brillante">
+                            Cristal brillante
+                        </option>
+
+                        <option value="Mochila explosiva">
+                            Mochila explosiva
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <!-- =========================
+                     STORY
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>
+                        ✍️ Historia
+                    </h2>
+
+                    <textarea
+                        id="storyStart"
+                        placeholder="Inicio de la historia"></textarea>
+
+                    <textarea
+                        id="storyMiddle"
+                        placeholder="Problema o aventura"></textarea>
+
+                    <textarea
+                        id="storyEnd"
+                        placeholder="Final de la historia"></textarea>
+
+                </div>
+
+                <!-- =========================
+                     DRAW
+                ========================== -->
+
+                <div class="card">
+
+                    <h2>
+                        🎨 Dibuja algo
+                    </h2>
+
+                    <canvas
+                        id="drawingCanvas"
+                        width="600"
+                        height="300"></canvas>
+
+                    <button onclick="clearCanvas()">
+                        🧹 Limpiar dibujo
+                    </button>
+
+                </div>
+
+            </section>
+
+            <!-- =========================
+                 RIGHT
+            ========================== -->
+
+            <aside class="right-panel">
+
+                <div class="card">
+
+                    <h2>
+                        📚 Historia Generada
+                    </h2>
+
+                    <div
+                        id="storyResult"
+                        class="story-result"></div>
+
+                </div>
+
+                <div class="card">
+
+                    <button onclick="generateStory()">
+                        ⚡ Generar Historia
+                    </button>
+
+                    <button onclick="speakStory()">
+                        🔊 Narrar Historia
+                    </button>
+
+                    <button onclick="downloadStory()">
+                        📸 Descargar
+                    </button>
+
+                    <button onclick="saveProject()">
+                        💾 Guardar
+                    </button>
+
+                    <button onclick="loadProject()">
+                        📂 Cargar
+                    </button>
+
+                </div>
+
+            </aside>
+
+        </main>
+
+    </div>
+
+    <script src="js/avatar-builder.js"></script>
+    <script src="js/world-builder.js"></script>
+    <script src="js/object-builder.js"></script>
+    <script src="js/story-engine.js"></script>
+    <script src="js/narrator.js"></script>
+    <script src="js/export.js"></script>
+    <script src="js/storage.js"></script>
+    <script src="js/drawing.js"></script>
+
+</body>
+
+</html>
